@@ -1,44 +1,40 @@
-const CACHE_NAME = "neon-ronin-v1";
-const ASSETS_TO_CACHE = [
-  "./",
-  "./index.html",
-  "./manifest.webmanifest"
-];
+const CACHE_NAME = "neon-ronin-v3";
 
-self.addEventListener("install", (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
-  );
+self.addEventListener("install", () => {
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(
-        keys.map((k) => {
-          if (k !== CACHE_NAME) return caches.delete(k);
-        })
-      )
+      Promise.all(keys.map((k) => caches.delete(k)))
     )
   );
   self.clients.claim();
 });
 
 self.addEventListener("fetch", (e) => {
+  // Navigation requests (HTML): Always fetch from network to avoid stale cache!
+  if (e.request.mode === "navigate") {
+    e.respondWith(
+      fetch(e.request).catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
   e.respondWith(
-    caches.match(e.request).then((res) => {
+    caches.match(e.request).then((cached) => {
       return (
-        res ||
-        fetch(e.request).then((fetchRes) => {
-          return caches.open(CACHE_NAME).then((cache) => {
-            if (e.request.url.startsWith("http")) {
-              cache.put(e.request, fetchRes.clone());
-            }
-            return fetchRes;
-          });
+        cached ||
+        fetch(e.request).then((networkRes) => {
+          if (e.request.url.startsWith("http")) {
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(e.request, networkRes.clone());
+            });
+          }
+          return networkRes;
         })
       );
-    }).catch(() => caches.match("./index.html"))
+    })
   );
 });
