@@ -11,7 +11,11 @@ export type SfxName =
   | "hurt"
   | "bossPhase"
   | "win"
-  | "dead";
+  | "dead"
+  | "parry"
+  | "perk"
+  | "achievement"
+  | "styleUp";
 
 interface Chord {
   bass: number;
@@ -408,6 +412,32 @@ export class GameAudio {
       case "dead":
         this.blip(midi(50), "sawtooth", 1.0, 0.4);
         this.blip(midi(46), "sawtooth", 1.0, 0.4);
+        break;
+      case "parry":
+        // Crisp high-metal deflection ping + sub punch
+        this.blip(midi(96), "sine", 0.35, 0.22);
+        this.blip(midi(84), "triangle", 0.3, 0.18);
+        this.noiseHit(0.22, 1200, 6500, 0.14, 0.002);
+        this.blip(midi(36), "sawtooth", 0.4, 0.2);
+        break;
+      case "perk":
+        // Uplifting tech arpeggio
+        this.blip(midi(60), "sine", 0.2, 0.14, ctx.currentTime);
+        this.blip(midi(67), "sine", 0.22, 0.14, ctx.currentTime + 0.08);
+        this.blip(midi(72), "triangle", 0.25, 0.2, ctx.currentTime + 0.16);
+        this.blip(midi(79), "triangle", 0.3, 0.3, ctx.currentTime + 0.24);
+        break;
+      case "achievement":
+        // Cyberpunk synth fanfare
+        this.blip(midi(57), "sawtooth", 0.25, 0.25, ctx.currentTime);
+        this.blip(midi(64), "sawtooth", 0.28, 0.25, ctx.currentTime + 0.1);
+        this.blip(midi(69), "sawtooth", 0.3, 0.3, ctx.currentTime + 0.2);
+        this.blip(midi(76), "sine", 0.4, 0.5, ctx.currentTime + 0.3);
+        break;
+      case "styleUp":
+        this.blip(midi(76), "sine", 0.18, 0.1);
+        this.blip(midi(81), "triangle", 0.2, 0.12, ctx.currentTime + 0.05);
+        this.blip(midi(88), "sine", 0.24, 0.18, ctx.currentTime + 0.1);
         break;
     }
   }

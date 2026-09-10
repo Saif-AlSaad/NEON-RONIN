@@ -2,6 +2,7 @@ import { cn } from "../utils/cn";
 
 interface Props {
   onStart: () => void;
+  onArchives?: () => void;
 }
 
 const SUN = (
@@ -75,16 +76,28 @@ export default function TitleScreen({ onStart }: Props) {
           shogun. Draw your blade, neon-streaked and hungry.
         </p>
 
-        <button
-          onClick={onStart}
-          className={cn(
-            "animate-fade-in-up group relative mt-10 overflow-hidden rounded-xl border-2 border-cyan-300/70 bg-gradient-to-b from-pink-500/25 to-fuchsia-900/30 px-12 py-4 font-display text-lg font-black tracking-[0.25em] text-cyan-100 shadow-[0_0_35px_rgba(236,72,153,0.45)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_60px_rgba(56,189,248,0.55)] active:scale-95",
-            "after:pointer-events-none after:absolute after:inset-0 after:rounded-xl after:ring-2 after:ring-cyan-300/30 after:animate-pulse-glow"
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <button
+            onClick={onStart}
+            className={cn(
+              "animate-fade-in-up group relative overflow-hidden rounded-xl border-2 border-cyan-300/70 bg-gradient-to-b from-pink-500/25 to-fuchsia-900/30 px-10 py-3.5 font-display text-lg font-black tracking-[0.25em] text-cyan-100 shadow-[0_0_35px_rgba(236,72,153,0.45)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_60px_rgba(56,189,248,0.55)] active:scale-95",
+              "after:pointer-events-none after:absolute after:inset-0 after:rounded-xl after:ring-2 after:ring-cyan-300/30 after:animate-pulse-glow"
+            )}
+            style={{ animationDelay: "0.4s" }}
+          >
+            <span className="relative z-10">▶ DRAW BLADE</span>
+          </button>
+
+          {onArchives && (
+            <button
+              onClick={onArchives}
+              className="animate-fade-in-up rounded-xl border border-white/20 bg-slate-950/60 px-6 py-3.5 font-display text-sm font-bold tracking-widest text-slate-300 transition-all hover:border-amber-400/60 hover:text-amber-200 hover:shadow-[0_0_25px_rgba(251,191,36,0.3)] active:scale-95"
+              style={{ animationDelay: "0.45s" }}
+            >
+              🏆 TROPHIES & STATS
+            </button>
           )}
-          style={{ animationDelay: "0.4s" }}
-        >
-          <span className="relative z-10">▶ DRAW BLADE</span>
-        </button>
+        </div>
       </div>
 
       <div className="pointer-events-none absolute inset-0 opacity-[0.08]" style={{
