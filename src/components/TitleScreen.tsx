@@ -21,7 +21,7 @@ const SUN = (
   </svg>
 );
 
-export default function TitleScreen({ onStart }: Props) {
+export default function TitleScreen({ onStart, onArchives }: Props) {
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
       {/* Synthwave sky */}
