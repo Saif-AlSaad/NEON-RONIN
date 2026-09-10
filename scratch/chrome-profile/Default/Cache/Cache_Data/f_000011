@@ -1,0 +1,236 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/TitleScreen.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=b9724344"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import { cn } from "/src/utils/cn.ts";
+const SUN = /* @__PURE__ */ jsxDEV("svg", { viewBox: "0 0 200 200", className: "h-44 w-44 sm:h-64 sm:w-64", "aria-hidden": true, children: [
+  /* @__PURE__ */ jsxDEV("defs", { children: /* @__PURE__ */ jsxDEV("linearGradient", { id: "sung", x1: "0", x2: "0", y1: "0", y2: "1", children: [
+    /* @__PURE__ */ jsxDEV("stop", { offset: "0%", stopColor: "#ffb86b" }, void 0, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+      lineNumber: 12,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("stop", { offset: "55%", stopColor: "#ff4d8a" }, void 0, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+      lineNumber: 13,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("stop", { offset: "100%", stopColor: "#7b2cbf" }, void 0, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+      lineNumber: 14,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+    lineNumber: 11,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+    lineNumber: 10,
+    columnNumber: 5
+  }, this),
+  /* @__PURE__ */ jsxDEV("circle", { cx: "100", cy: "100", r: "90", fill: "url(#sung)" }, void 0, false, {
+    fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+    lineNumber: 17,
+    columnNumber: 5
+  }, this),
+  [54, 72, 90, 108, 126, 144].map(
+    (y) => /* @__PURE__ */ jsxDEV("rect", { x: 80 - (y - 54) / 2 * 1.2, y, width: 40 + (y - 54) * 1.2, height: "6", fill: "#0a0720" }, y, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+      lineNumber: 19,
+      columnNumber: 3
+    }, this)
+  )
+] }, void 0, true, {
+  fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+  lineNumber: 9,
+  columnNumber: 1
+}, this);
+export default function TitleScreen({ onStart, onArchives }) {
+  return /* @__PURE__ */ jsxDEV("div", { className: "relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center", children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(255,100,180,0.35),transparent_55%),linear-gradient(180deg,#200b45_0%,#4b0d6b_50%,#a5196e_100%)]" }, void 0, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+      lineNumber: 28,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "pointer-events-none absolute top-10 flex justify-center", children: /* @__PURE__ */ jsxDEV("div", { className: "animate-float", children: SUN }, void 0, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+      lineNumber: 31,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+      lineNumber: 30,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(
+      "div",
+      {
+        className: "pointer-events-none absolute bottom-0 left-0 right-0 h-[32%]",
+        style: {
+          background: "linear-gradient(180deg, transparent 0%, rgba(244,114,182,0.35) 30%, rgba(236,72,153,0.9) 100%)",
+          maskImage: "linear-gradient(to bottom, transparent, black 30%), repeating-linear-gradient(90deg, rgba(0,0,0,0.8) 0 2px, transparent 2px 60px)",
+          WebkitMaskImage: "linear-gradient(to bottom, transparent, black 30%), repeating-linear-gradient(90deg, rgba(0,0,0,0.8) 0 2px, transparent 2px 60px)",
+          transform: "perspective(400px) rotateX(60deg)",
+          transformOrigin: "bottom"
+        }
+      },
+      void 0,
+      false,
+      {
+        fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+        lineNumber: 34,
+        columnNumber: 7
+      },
+      this
+    ),
+    /* @__PURE__ */ jsxDEV("div", { className: "relative z-10 mt-[22vh] sm:mt-[28vh]", children: [
+      /* @__PURE__ */ jsxDEV("p", { className: "animate-fade-in-up font-display text-xs font-semibold uppercase tracking-[0.55em] text-cyan-300 sm:text-sm", children: "A Neon Hack & Slash" }, void 0, false, {
+        fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+        lineNumber: 49,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(
+        "h1",
+        {
+          className: "animate-fade-in-up mt-2 font-display text-6xl font-black tracking-tight sm:text-8xl",
+          style: {
+            background: "linear-gradient(180deg,#fef3c7 0%,#ff4d8a 50%,#7c3aed 100%)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: "transparent",
+            textShadow: "0 0 40px rgba(255,77,138,0.45)",
+            animationDelay: "0.08s"
+          },
+          children: "NEON RONIN"
+        },
+        void 0,
+        false,
+        {
+          fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+          lineNumber: 52,
+          columnNumber: 9
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV(
+        "p",
+        {
+          className: "animate-fade-in-up mt-3 font-display text-lg font-semibold tracking-[0.4em] text-pink-200 sm:text-2xl",
+          style: { animationDelay: "0.18s" },
+          children: "BLADE OF THE WASTES"
+        },
+        void 0,
+        false,
+        {
+          fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+          lineNumber: 65,
+          columnNumber: 9
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV(
+        "p",
+        {
+          className: "animate-fade-in-up mx-auto mt-6 max-w-md font-story text-lg italic text-pink-100/80 sm:text-xl",
+          style: { animationDelay: "0.28s" },
+          children: "Ten waves of raiders, archers, and oni stand between you and the shogun. Draw your blade, neon-streaked and hungry."
+        },
+        void 0,
+        false,
+        {
+          fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+          lineNumber: 71,
+          columnNumber: 9
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV("div", { className: "mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row", children: [
+        /* @__PURE__ */ jsxDEV(
+          "button",
+          {
+            onClick: onStart,
+            className: cn(
+              "animate-fade-in-up group relative overflow-hidden rounded-xl border-2 border-cyan-300/70 bg-gradient-to-b from-pink-500/25 to-fuchsia-900/30 px-10 py-3.5 font-display text-lg font-black tracking-[0.25em] text-cyan-100 shadow-[0_0_35px_rgba(236,72,153,0.45)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_60px_rgba(56,189,248,0.55)] active:scale-95",
+              "after:pointer-events-none after:absolute after:inset-0 after:rounded-xl after:ring-2 after:ring-cyan-300/30 after:animate-pulse-glow"
+            ),
+            style: { animationDelay: "0.4s" },
+            children: /* @__PURE__ */ jsxDEV("span", { className: "relative z-10", children: "▶ DRAW BLADE" }, void 0, false, {
+              fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+              lineNumber: 88,
+              columnNumber: 13
+            }, this)
+          },
+          void 0,
+          false,
+          {
+            fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+            lineNumber: 80,
+            columnNumber: 11
+          },
+          this
+        ),
+        onArchives && /* @__PURE__ */ jsxDEV(
+          "button",
+          {
+            onClick: onArchives,
+            className: "animate-fade-in-up rounded-xl border border-white/20 bg-slate-950/60 px-6 py-3.5 font-display text-sm font-bold tracking-widest text-slate-300 transition-all hover:border-amber-400/60 hover:text-amber-200 hover:shadow-[0_0_25px_rgba(251,191,36,0.3)] active:scale-95",
+            style: { animationDelay: "0.45s" },
+            children: "🏆 TROPHIES & STATS"
+          },
+          void 0,
+          false,
+          {
+            fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+            lineNumber: 92,
+            columnNumber: 11
+          },
+          this
+        )
+      ] }, void 0, true, {
+        fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+        lineNumber: 79,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+      lineNumber: 48,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "pointer-events-none absolute inset-0 opacity-[0.08]", style: {
+      backgroundImage: "repeating-linear-gradient(to bottom, rgba(255,255,255,0.8) 0 1px, transparent 1px 3px)"
+    } }, void 0, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+      lineNumber: 103,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx",
+    lineNumber: 26,
+    columnNumber: 5
+  }, this);
+}
+_c = TitleScreen;
+var _c;
+$RefreshReg$(_c, "TitleScreen");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "E:/VSCode/Games/NEON RONIN/src/components/TitleScreen.tsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,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VUFBRTtBQUFBO0FBQUEsUUFGckM7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLE1BTUE7QUFBQSxNQUVBLHVCQUFDLFNBQUksV0FBVSxxRUFDYjtBQUFBO0FBQUEsVUFBQztBQUFBO0FBQUEsWUFDQyxTQUFTWDtBQUFBQSxZQUNULFdBQVdMO0FBQUFBLGNBQ1Q7QUFBQSxjQUNBO0FBQUEsWUFDRjtBQUFBLFlBQ0EsT0FBTyxFQUFFZ0IsZ0JBQWdCLE9BQU87QUFBQSxZQUVoQyxpQ0FBQyxVQUFLLFdBQVUsaUJBQWdCLDRCQUFoQztBQUFBO0FBQUE7QUFBQTtBQUFBLG1CQUE0QztBQUFBO0FBQUEsVUFSOUM7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLFFBU0E7QUFBQSxRQUVDVixjQUNDO0FBQUEsVUFBQztBQUFBO0FBQUEsWUFDQyxTQUFTQTtBQUFBQSxZQUNULFdBQVU7QUFBQSxZQUNWLE9BQU8sRUFBRVUsZ0JBQWdCLFFBQVE7QUFBQSxZQUFFO0FBQUE7QUFBQSxVQUhyQztBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsUUFNQTtBQUFBLFdBbkJKO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFxQkE7QUFBQSxTQXBERjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBcURBO0FBQUEsSUFFQSx1QkFBQyxTQUFJLFdBQVUsdURBQXNELE9BQU87QUFBQSxNQUMxRUMsaUJBQWlCO0FBQUEsSUFDbkIsS0FGQTtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBRUU7QUFBQSxPQS9FSjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBZ0ZBO0FBRUo7QUFBQ0MsS0FwRnVCZDtBQUFXLElBQUFjO0FBQUEsYUFBQUEsSUFBQSIsIm5hbWVzIjpbImNuIiwiU1VOIiwibWFwIiwieSIsIlRpdGxlU2NyZWVuIiwib25TdGFydCIsIm9uQXJjaGl2ZXMiLCJiYWNrZ3JvdW5kIiwibWFza0ltYWdlIiwiV2Via2l0TWFza0ltYWdlIiwidHJhbnNmb3JtIiwidHJhbnNmb3JtT3JpZ2luIiwiV2Via2l0QmFja2dyb3VuZENsaXAiLCJiYWNrZ3JvdW5kQ2xpcCIsImNvbG9yIiwidGV4dFNoYWRvdyIsImFuaW1hdGlvbkRlbGF5IiwiYmFja2dyb3VuZEltYWdlIiwiX2MiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiVGl0bGVTY3JlZW4udHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGNuIH0gZnJvbSBcIi4uL3V0aWxzL2NuXCI7XG5cbmludGVyZmFjZSBQcm9wcyB7XG4gIG9uU3RhcnQ6ICgpID0+IHZvaWQ7XG4gIG9uQXJjaGl2ZXM/OiAoKSA9PiB2b2lkO1xufVxuXG5jb25zdCBTVU4gPSAoXG4gIDxzdmcgdmlld0JveD1cIjAgMCAyMDAgMjAwXCIgY2xhc3NOYW1lPVwiaC00NCB3LTQ0IHNtOmgtNjQgc206dy02NFwiIGFyaWEtaGlkZGVuPlxuICAgIDxkZWZzPlxuICAgICAgPGxpbmVhckdyYWRpZW50IGlkPVwic3VuZ1wiIHgxPVwiMFwiIHgyPVwiMFwiIHkxPVwiMFwiIHkyPVwiMVwiPlxuICAgICAgICA8c3RvcCBvZmZzZXQ9XCIwJVwiIHN0b3BDb2xvcj1cIiNmZmI4NmJcIiAvPlxuICAgICAgICA8c3RvcCBvZmZzZXQ9XCI1NSVcIiBzdG9wQ29sb3I9XCIjZmY0ZDhhXCIgLz5cbiAgICAgICAgPHN0b3Agb2Zmc2V0PVwiMTAwJVwiIHN0b3BDb2xvcj1cIiM3YjJjYmZcIiAvPlxuICAgICAgPC9saW5lYXJHcmFkaWVudD5cbiAgICA8L2RlZnM+XG4gICAgPGNpcmNsZSBjeD1cIjEwMFwiIGN5PVwiMTAwXCIgcj1cIjkwXCIgZmlsbD1cInVybCgjc3VuZylcIiAvPlxuICAgIHtbNTQsIDcyLCA5MCwgMTA4LCAxMjYsIDE0NF0ubWFwKCh5KSA9PiAoXG4gICAgICA8cmVjdCBrZXk9e3l9IHg9ezgwIC0gKCh5IC0gNTQpIC8gMikgKiAxLjJ9IHk9e3l9IHdpZHRoPXs0MCArICh5IC0gNTQpICogMS4yfSBoZWlnaHQ9XCI2XCIgZmlsbD1cIiMwYTA3MjBcIiAvPlxuICAgICkpfVxuICA8L3N2Zz5cbik7XG5cbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIFRpdGxlU2NyZWVuKHsgb25TdGFydCwgb25BcmNoaXZlcyB9OiBQcm9wcykge1xuICByZXR1cm4gKFxuICAgIDxkaXYgY2xhc3NOYW1lPVwicmVsYXRpdmUgZmxleCBtaW4taC1zY3JlZW4gZmxleC1jb2wgaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIG92ZXJmbG93LWhpZGRlbiBweC02IHRleHQtY2VudGVyXCI+XG4gICAgICB7LyogU3ludGh3YXZlIHNreSAqL31cbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwicG9pbnRlci1ldmVudHMtbm9uZSBhYnNvbHV0ZSBpbnNldC0wIGJnLVtyYWRpYWwtZ3JhZGllbnQoZWxsaXBzZV9hdF81MCVfMzUlLHJnYmEoMjU1LDEwMCwxODAsMC4zNSksdHJhbnNwYXJlbnRfNTUlKSxsaW5lYXItZ3JhZGllbnQoMTgwZGVnLCMyMDBiNDVfMCUsIzRiMGQ2Yl81MCUsI2E1MTk2ZV8xMDAlKV1cIiAvPlxuICAgICAgey8qIFN1biAqL31cbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwicG9pbnRlci1ldmVudHMtbm9uZSBhYnNvbHV0ZSB0b3AtMTAgZmxleCBqdXN0aWZ5LWNlbnRlclwiPlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImFuaW1hdGUtZmxvYXRcIj57U1VOfTwvZGl2PlxuICAgICAgPC9kaXY+XG4gICAgICB7LyogR3JpZCAqL31cbiAgICAgIDxkaXZcbiAgICAgICAgY2xhc3NOYW1lPVwicG9pbnRlci1ldmVudHMtbm9uZSBhYnNvbHV0ZSBib3R0b20tMCBsZWZ0LTAgcmlnaHQtMCBoLVszMiVdXCJcbiAgICAgICAgc3R5bGU9e3tcbiAgICAgICAgICBiYWNrZ3JvdW5kOlxuICAgICAgICAgICAgXCJsaW5lYXItZ3JhZGllbnQoMTgwZGVnLCB0cmFuc3BhcmVudCAwJSwgcmdiYSgyNDQsMTE0LDE4MiwwLjM1KSAzMCUsIHJnYmEoMjM2LDcyLDE1MywwLjkpIDEwMCUpXCIsXG4gICAgICAgICAgbWFza0ltYWdlOlxuICAgICAgICAgICAgXCJsaW5lYXItZ3JhZGllbnQodG8gYm90dG9tLCB0cmFuc3BhcmVudCwgYmxhY2sgMzAlKSwgcmVwZWF0aW5nLWxpbmVhci1ncmFkaWVudCg5MGRlZywgcmdiYSgwLDAsMCwwLjgpIDAgMnB4LCB0cmFuc3BhcmVudCAycHggNjBweClcIixcbiAgICAgICAgICBXZWJraXRNYXNrSW1hZ2U6XG4gICAgICAgICAgICBcImxpbmVhci1ncmFkaWVudCh0byBib3R0b20sIHRyYW5zcGFyZW50LCBibGFjayAzMCUpLCByZXBlYXRpbmctbGluZWFyLWdyYWRpZW50KDkwZGVnLCByZ2JhKDAsMCwwLDAuOCkgMCAycHgsIHRyYW5zcGFyZW50IDJweCA2MHB4KVwiLFxuICAgICAgICAgIHRyYW5zZm9ybTogXCJwZXJzcGVjdGl2ZSg0MDBweCkgcm90YXRlWCg2MGRlZylcIixcbiAgICAgICAgICB0cmFuc2Zvcm1PcmlnaW46IFwiYm90dG9tXCIsXG4gICAgICAgIH19XG4gICAgICAvPlxuXG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cInJlbGF0aXZlIHotMTAgbXQtWzIydmhdIHNtOm10LVsyOHZoXVwiPlxuICAgICAgICA8cCBjbGFzc05hbWU9XCJhbmltYXRlLWZhZGUtaW4tdXAgZm9udC1kaXNwbGF5IHRleHQteHMgZm9udC1zZW1pYm9sZCB1cHBlcmNhc2UgdHJhY2tpbmctWzAuNTVlbV0gdGV4dC1jeWFuLTMwMCBzbTp0ZXh0LXNtXCI+XG4gICAgICAgICAgQSBOZW9uIEhhY2sgJiBTbGFzaFxuICAgICAgICA8L3A+XG4gICAgICAgIDxoMVxuICAgICAgICAgIGNsYXNzTmFtZT1cImFuaW1hdGUtZmFkZS1pbi11cCBtdC0yIGZvbnQtZGlzcGxheSB0ZXh0LTZ4bCBmb250LWJsYWNrIHRyYWNraW5nLXRpZ2h0IHNtOnRleHQtOHhsXCJcbiAgICAgICAgICBzdHlsZT17e1xuICAgICAgICAgICAgYmFja2dyb3VuZDogXCJsaW5lYXItZ3JhZGllbnQoMTgwZGVnLCNmZWYzYzcgMCUsI2ZmNGQ4YSA1MCUsIzdjM2FlZCAxMDAlKVwiLFxuICAgICAgICAgICAgV2Via2l0QmFja2dyb3VuZENsaXA6IFwidGV4dFwiLFxuICAgICAgICAgICAgYmFja2dyb3VuZENsaXA6IFwidGV4dFwiLFxuICAgICAgICAgICAgY29sb3I6IFwidHJhbnNwYXJlbnRcIixcbiAgICAgICAgICAgIHRleHRTaGFkb3c6IFwiMCAwIDQwcHggcmdiYSgyNTUsNzcsMTM4LDAuNDUpXCIsXG4gICAgICAgICAgICBhbmltYXRpb25EZWxheTogXCIwLjA4c1wiLFxuICAgICAgICAgIH19XG4gICAgICAgID5cbiAgICAgICAgICBORU9OIFJPTklOXG4gICAgICAgIDwvaDE+XG4gICAgICAgIDxwXG4gICAgICAgICAgY2xhc3NOYW1lPVwiYW5pbWF0ZS1mYWRlLWluLXVwIG10LTMgZm9udC1kaXNwbGF5IHRleHQtbGcgZm9udC1zZW1pYm9sZCB0cmFja2luZy1bMC40ZW1dIHRleHQtcGluay0yMDAgc206dGV4dC0yeGxcIlxuICAgICAgICAgIHN0eWxlPXt7IGFuaW1hdGlvbkRlbGF5OiBcIjAuMThzXCIgfX1cbiAgICAgICAgPlxuICAgICAgICAgIEJMQURFIE9GIFRIRSBXQVNURVNcbiAgICAgICAgPC9wPlxuICAgICAgICA8cFxuICAgICAgICAgIGNsYXNzTmFtZT1cImFuaW1hdGUtZmFkZS1pbi11cCBteC1hdXRvIG10LTYgbWF4LXctbWQgZm9udC1zdG9yeSB0ZXh0LWxnIGl0YWxpYyB0ZXh0LXBpbmstMTAwLzgwIHNtOnRleHQteGxcIlxuICAgICAgICAgIHN0eWxlPXt7IGFuaW1hdGlvbkRlbGF5OiBcIjAuMjhzXCIgfX1cbiAgICAgICAgPlxuICAgICAgICAgIFRlbiB3YXZlcyBvZiByYWlkZXJzLCBhcmNoZXJzLCBhbmQgb25pIHN0YW5kIGJldHdlZW4geW91IGFuZCB0aGVcbiAgICAgICAgICBzaG9ndW4uIERyYXcgeW91ciBibGFkZSwgbmVvbi1zdHJlYWtlZCBhbmQgaHVuZ3J5LlxuICAgICAgICA8L3A+XG5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJtdC0xMCBmbGV4IGZsZXgtY29sIGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBnYXAtMyBzbTpmbGV4LXJvd1wiPlxuICAgICAgICAgIDxidXR0b25cbiAgICAgICAgICAgIG9uQ2xpY2s9e29uU3RhcnR9XG4gICAgICAgICAgICBjbGFzc05hbWU9e2NuKFxuICAgICAgICAgICAgICBcImFuaW1hdGUtZmFkZS1pbi11cCBncm91cCByZWxhdGl2ZSBvdmVyZmxvdy1oaWRkZW4gcm91bmRlZC14bCBib3JkZXItMiBib3JkZXItY3lhbi0zMDAvNzAgYmctZ3JhZGllbnQtdG8tYiBmcm9tLXBpbmstNTAwLzI1IHRvLWZ1Y2hzaWEtOTAwLzMwIHB4LTEwIHB5LTMuNSBmb250LWRpc3BsYXkgdGV4dC1sZyBmb250LWJsYWNrIHRyYWNraW5nLVswLjI1ZW1dIHRleHQtY3lhbi0xMDAgc2hhZG93LVswXzBfMzVweF9yZ2JhKDIzNiw3MiwxNTMsMC40NSldIHRyYW5zaXRpb24tYWxsIGR1cmF0aW9uLTMwMCBob3ZlcjpzY2FsZS0xMDUgaG92ZXI6c2hhZG93LVswXzBfNjBweF9yZ2JhKDU2LDE4OSwyNDgsMC41NSldIGFjdGl2ZTpzY2FsZS05NVwiLFxuICAgICAgICAgICAgICBcImFmdGVyOnBvaW50ZXItZXZlbnRzLW5vbmUgYWZ0ZXI6YWJzb2x1dGUgYWZ0ZXI6aW5zZXQtMCBhZnRlcjpyb3VuZGVkLXhsIGFmdGVyOnJpbmctMiBhZnRlcjpyaW5nLWN5YW4tMzAwLzMwIGFmdGVyOmFuaW1hdGUtcHVsc2UtZ2xvd1wiXG4gICAgICAgICAgICApfVxuICAgICAgICAgICAgc3R5bGU9e3sgYW5pbWF0aW9uRGVsYXk6IFwiMC40c1wiIH19XG4gICAgICAgICAgPlxuICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwicmVsYXRpdmUgei0xMFwiPuKWtiBEUkFXIEJMQURFPC9zcGFuPlxuICAgICAgICAgIDwvYnV0dG9uPlxuXG4gICAgICAgICAge29uQXJjaGl2ZXMgJiYgKFxuICAgICAgICAgICAgPGJ1dHRvblxuICAgICAgICAgICAgICBvbkNsaWNrPXtvbkFyY2hpdmVzfVxuICAgICAgICAgICAgICBjbGFzc05hbWU9XCJhbmltYXRlLWZhZGUtaW4tdXAgcm91bmRlZC14bCBib3JkZXIgYm9yZGVyLXdoaXRlLzIwIGJnLXNsYXRlLTk1MC82MCBweC02IHB5LTMuNSBmb250LWRpc3BsYXkgdGV4dC1zbSBmb250LWJvbGQgdHJhY2tpbmctd2lkZXN0IHRleHQtc2xhdGUtMzAwIHRyYW5zaXRpb24tYWxsIGhvdmVyOmJvcmRlci1hbWJlci00MDAvNjAgaG92ZXI6dGV4dC1hbWJlci0yMDAgaG92ZXI6c2hhZG93LVswXzBfMjVweF9yZ2JhKDI1MSwxOTEsMzYsMC4zKV0gYWN0aXZlOnNjYWxlLTk1XCJcbiAgICAgICAgICAgICAgc3R5bGU9e3sgYW5pbWF0aW9uRGVsYXk6IFwiMC40NXNcIiB9fVxuICAgICAgICAgICAgPlxuICAgICAgICAgICAgICDwn4+GIFRST1BISUVTICYgU1RBVFNcbiAgICAgICAgICAgIDwvYnV0dG9uPlxuICAgICAgICAgICl9XG4gICAgICAgIDwvZGl2PlxuICAgICAgPC9kaXY+XG5cbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwicG9pbnRlci1ldmVudHMtbm9uZSBhYnNvbHV0ZSBpbnNldC0wIG9wYWNpdHktWzAuMDhdXCIgc3R5bGU9e3tcbiAgICAgICAgYmFja2dyb3VuZEltYWdlOiBcInJlcGVhdGluZy1saW5lYXItZ3JhZGllbnQodG8gYm90dG9tLCByZ2JhKDI1NSwyNTUsMjU1LDAuOCkgMCAxcHgsIHRyYW5zcGFyZW50IDFweCAzcHgpXCIsXG4gICAgICB9fSAvPlxuICAgIDwvZGl2PlxuICApO1xufVxuIl0sImZpbGUiOiJFOi9WU0NvZGUvR2FtZXMvTkVPTiBST05JTi9zcmMvY29tcG9uZW50cy9UaXRsZVNjcmVlbi50c3gifQ==

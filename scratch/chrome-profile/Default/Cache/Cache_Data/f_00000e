@@ -1,0 +1,191 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/PerkSelectModal.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=b9724344"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+var _s = $RefreshSig$();
+import __vite__cjsImport1_react from "/node_modules/.vite/deps/react.js?v=b9724344"; const useEffect = __vite__cjsImport1_react["useEffect"];
+export default function PerkSelectModal({ perks, onSelect }) {
+  _s();
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "1" && perks[0]) onSelect(perks[0]);
+      if (e.key === "2" && perks[1]) onSelect(perks[1]);
+      if (e.key === "3" && perks[2]) onSelect(perks[2]);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [perks, onSelect]);
+  return /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 z-40 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md animate-fadeIn", children: /* @__PURE__ */ jsxDEV("div", { className: "w-full max-w-4xl text-center", children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "inline-block rounded-full border border-cyan-400/40 bg-cyan-950/40 px-4 py-1 font-story text-xs font-semibold tracking-widest text-cyan-300", children: "CYBERWARE PROTOCOL INITIATED" }, void 0, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+      lineNumber: 23,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("h2", { className: "mt-2 font-display text-3xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-pink-400 to-cyan-300 drop-shadow-[0_0_20px_rgba(236,72,153,0.5)]", children: "CHOOSE YOUR AUGMENTATION" }, void 0, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+      lineNumber: 26,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("p", { className: "mt-1 font-story text-slate-300 text-sm", children: "Select 1 cyberware modification to integrate into your battle suit (Press 1, 2, or 3)" }, void 0, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+      lineNumber: 29,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "mt-8 grid grid-cols-1 gap-5 md:grid-cols-3", children: perks.map((p, idx) => {
+      const isLegendary = p.rarity === "legendary";
+      const isRare = p.rarity === "rare";
+      return /* @__PURE__ */ jsxDEV(
+        "button",
+        {
+          onClick: () => onSelect(p),
+          className: `group relative flex flex-col justify-between overflow-hidden rounded-2xl border-2 bg-slate-950/80 p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] active:scale-95 ${p.border} ${p.bgGlow}`,
+          children: [
+            /* @__PURE__ */ jsxDEV(
+              "div",
+              {
+                className: "pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full opacity-20 blur-2xl transition-opacity group-hover:opacity-40",
+                style: { backgroundColor: p.accent }
+              },
+              void 0,
+              false,
+              {
+                fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+                lineNumber: 45,
+                columnNumber: 17
+              },
+              this
+            ),
+            /* @__PURE__ */ jsxDEV("div", { children: [
+              /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-between", children: [
+                /* @__PURE__ */ jsxDEV("span", { className: "text-4xl filter drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]", children: p.icon }, void 0, false, {
+                  fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+                  lineNumber: 52,
+                  columnNumber: 21
+                }, this),
+                /* @__PURE__ */ jsxDEV(
+                  "span",
+                  {
+                    className: `rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest ${isLegendary ? "border border-amber-400/60 bg-amber-500/20 text-amber-300" : isRare ? "border border-rose-400/50 bg-rose-500/20 text-rose-300" : "border border-cyan-400/40 bg-cyan-500/20 text-cyan-300"}`,
+                    children: p.rarity
+                  },
+                  void 0,
+                  false,
+                  {
+                    fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+                    lineNumber: 55,
+                    columnNumber: 21
+                  },
+                  this
+                )
+              ] }, void 0, true, {
+                fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+                lineNumber: 51,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV("h3", { className: "mt-4 font-display text-xl font-bold tracking-wide text-white group-hover:text-cyan-200 transition-colors", children: p.name }, void 0, false, {
+                fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+                lineNumber: 68,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV("p", { className: "font-story text-xs tracking-wider text-slate-400 uppercase", children: p.tagline }, void 0, false, {
+                fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+                lineNumber: 71,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV("p", { className: "mt-4 font-sans text-xs leading-relaxed text-slate-300", children: p.description }, void 0, false, {
+                fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+                lineNumber: 75,
+                columnNumber: 19
+              }, this)
+            ] }, void 0, true, {
+              fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+              lineNumber: 50,
+              columnNumber: 17
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "mt-6 flex items-center justify-between border-t border-white/10 pt-4", children: [
+              /* @__PURE__ */ jsxDEV("span", { className: "font-display text-xs tracking-widest text-slate-500 group-hover:text-cyan-300 transition-colors", children: [
+                "KEY [",
+                idx + 1,
+                "]"
+              ] }, void 0, true, {
+                fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+                lineNumber: 81,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV(
+                "span",
+                {
+                  className: "rounded-lg px-3 py-1 font-display text-xs font-bold tracking-wider transition-all group-hover:shadow-[0_0_15px_rgba(56,189,248,0.4)]",
+                  style: {
+                    backgroundColor: `${p.accent}25`,
+                    color: p.accent,
+                    border: `1px solid ${p.accent}60`
+                  },
+                  children: "INSTALL →"
+                },
+                void 0,
+                false,
+                {
+                  fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+                  lineNumber: 84,
+                  columnNumber: 19
+                },
+                this
+              )
+            ] }, void 0, true, {
+              fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+              lineNumber: 80,
+              columnNumber: 17
+            }, this)
+          ]
+        },
+        p.id,
+        true,
+        {
+          fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+          lineNumber: 39,
+          columnNumber: 15
+        },
+        this
+      );
+    }) }, void 0, false, {
+      fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+      lineNumber: 33,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+    lineNumber: 22,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx",
+    lineNumber: 21,
+    columnNumber: 5
+  }, this);
+}
+_s(PerkSelectModal, "OD7bBpZva5O2jO+Puf00hKivP7c=");
+_c = PerkSelectModal;
+var _c;
+$RefreshReg$(_c, "PerkSelectModal");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "E:/VSCode/Games/NEON RONIN/src/components/PerkSelectModal.tsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,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O0FBQUEsZ0JBQUM7QUFBQTtBQUFBLGtCQUNDLFdBQVU7QUFBQSxrQkFDVixPQUFPO0FBQUEsb0JBQ0xNLGlCQUFpQixHQUFHUCxFQUFFUSxNQUFNO0FBQUEsb0JBQzVCSyxPQUFPYixFQUFFUTtBQUFBQSxvQkFDVEgsUUFBUSxhQUFhTCxFQUFFUSxNQUFNO0FBQUEsa0JBQy9CO0FBQUEsa0JBQUU7QUFBQTtBQUFBLGdCQU5KO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxjQVNBO0FBQUEsaUJBYkY7QUFBQTtBQUFBO0FBQUE7QUFBQSxtQkFjQTtBQUFBO0FBQUE7QUFBQSxRQXRES1IsRUFBRWM7QUFBQUEsUUFEVDtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLE1Bd0RBO0FBQUEsSUFFSixDQUFDLEtBaEVIO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FpRUE7QUFBQSxPQTVFRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBNkVBLEtBOUVGO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0ErRUE7QUFFSjtBQUFDdEIsR0E3RnVCSCxpQkFBZTtBQUFBLEtBQWZBO0FBQWUsSUFBQTBCO0FBQUEsYUFBQUEsSUFBQSIsIm5hbWVzIjpbInVzZUVmZmVjdCIsIlBlcmtTZWxlY3RNb2RhbCIsInBlcmtzIiwib25TZWxlY3QiLCJfcyIsIm9uS2V5IiwiZSIsImtleSIsIndpbmRvdyIsImFkZEV2ZW50TGlzdGVuZXIiLCJyZW1vdmVFdmVudExpc3RlbmVyIiwibWFwIiwicCIsImlkeCIsImlzTGVnZW5kYXJ5IiwicmFyaXR5IiwiaXNSYXJlIiwiYm9yZGVyIiwiYmdHbG93IiwiYmFja2dyb3VuZENvbG9yIiwiYWNjZW50IiwiaWNvbiIsIm5hbWUiLCJ0YWdsaW5lIiwiZGVzY3JpcHRpb24iLCJjb2xvciIsImlkIiwiX2MiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiUGVya1NlbGVjdE1vZGFsLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QsIHsgdXNlRWZmZWN0IH0gZnJvbSBcInJlYWN0XCI7XG5pbXBvcnQgdHlwZSB7IFBlcmsgfSBmcm9tIFwiLi4vZ2FtZS9wZXJrc1wiO1xuXG5pbnRlcmZhY2UgUHJvcHMge1xuICBwZXJrczogUGVya1tdO1xuICBvblNlbGVjdDogKHBlcms6IFBlcmspID0+IHZvaWQ7XG59XG5cbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIFBlcmtTZWxlY3RNb2RhbCh7IHBlcmtzLCBvblNlbGVjdCB9OiBQcm9wcykge1xuICB1c2VFZmZlY3QoKCkgPT4ge1xuICAgIGNvbnN0IG9uS2V5ID0gKGU6IEtleWJvYXJkRXZlbnQpID0+IHtcbiAgICAgIGlmIChlLmtleSA9PT0gXCIxXCIgJiYgcGVya3NbMF0pIG9uU2VsZWN0KHBlcmtzWzBdKTtcbiAgICAgIGlmIChlLmtleSA9PT0gXCIyXCIgJiYgcGVya3NbMV0pIG9uU2VsZWN0KHBlcmtzWzFdKTtcbiAgICAgIGlmIChlLmtleSA9PT0gXCIzXCIgJiYgcGVya3NbMl0pIG9uU2VsZWN0KHBlcmtzWzJdKTtcbiAgICB9O1xuICAgIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKFwia2V5ZG93blwiLCBvbktleSk7XG4gICAgcmV0dXJuICgpID0+IHdpbmRvdy5yZW1vdmVFdmVudExpc3RlbmVyKFwia2V5ZG93blwiLCBvbktleSk7XG4gIH0sIFtwZXJrcywgb25TZWxlY3RdKTtcblxuICByZXR1cm4gKFxuICAgIDxkaXYgY2xhc3NOYW1lPVwiYWJzb2x1dGUgaW5zZXQtMCB6LTQwIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIGJnLWJsYWNrLzgwIHAtNCBiYWNrZHJvcC1ibHVyLW1kIGFuaW1hdGUtZmFkZUluXCI+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cInctZnVsbCBtYXgtdy00eGwgdGV4dC1jZW50ZXJcIj5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJpbmxpbmUtYmxvY2sgcm91bmRlZC1mdWxsIGJvcmRlciBib3JkZXItY3lhbi00MDAvNDAgYmctY3lhbi05NTAvNDAgcHgtNCBweS0xIGZvbnQtc3RvcnkgdGV4dC14cyBmb250LXNlbWlib2xkIHRyYWNraW5nLXdpZGVzdCB0ZXh0LWN5YW4tMzAwXCI+XG4gICAgICAgICAgQ1lCRVJXQVJFIFBST1RPQ09MIElOSVRJQVRFRFxuICAgICAgICA8L2Rpdj5cbiAgICAgICAgPGgyIGNsYXNzTmFtZT1cIm10LTIgZm9udC1kaXNwbGF5IHRleHQtM3hsIGZvbnQtYmxhY2sgdHJhY2tpbmctd2lkZXIgdGV4dC10cmFuc3BhcmVudCBiZy1jbGlwLXRleHQgYmctZ3JhZGllbnQtdG8tciBmcm9tLWFtYmVyLTIwMCB2aWEtcGluay00MDAgdG8tY3lhbi0zMDAgZHJvcC1zaGFkb3ctWzBfMF8yMHB4X3JnYmEoMjM2LDcyLDE1MywwLjUpXVwiPlxuICAgICAgICAgIENIT09TRSBZT1VSIEFVR01FTlRBVElPTlxuICAgICAgICA8L2gyPlxuICAgICAgICA8cCBjbGFzc05hbWU9XCJtdC0xIGZvbnQtc3RvcnkgdGV4dC1zbGF0ZS0zMDAgdGV4dC1zbVwiPlxuICAgICAgICAgIFNlbGVjdCAxIGN5YmVyd2FyZSBtb2RpZmljYXRpb24gdG8gaW50ZWdyYXRlIGludG8geW91ciBiYXR0bGUgc3VpdCAoUHJlc3MgMSwgMiwgb3IgMylcbiAgICAgICAgPC9wPlxuXG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwibXQtOCBncmlkIGdyaWQtY29scy0xIGdhcC01IG1kOmdyaWQtY29scy0zXCI+XG4gICAgICAgICAge3BlcmtzLm1hcCgocCwgaWR4KSA9PiB7XG4gICAgICAgICAgICBjb25zdCBpc0xlZ2VuZGFyeSA9IHAucmFyaXR5ID09PSBcImxlZ2VuZGFyeVwiO1xuICAgICAgICAgICAgY29uc3QgaXNSYXJlID0gcC5yYXJpdHkgPT09IFwicmFyZVwiO1xuXG4gICAgICAgICAgICByZXR1cm4gKFxuICAgICAgICAgICAgICA8YnV0dG9uXG4gICAgICAgICAgICAgICAga2V5PXtwLmlkfVxuICAgICAgICAgICAgICAgIG9uQ2xpY2s9eygpID0+IG9uU2VsZWN0KHApfVxuICAgICAgICAgICAgICAgIGNsYXNzTmFtZT17YGdyb3VwIHJlbGF0aXZlIGZsZXggZmxleC1jb2wganVzdGlmeS1iZXR3ZWVuIG92ZXJmbG93LWhpZGRlbiByb3VuZGVkLTJ4bCBib3JkZXItMiBiZy1zbGF0ZS05NTAvODAgcC02IHRleHQtbGVmdCB0cmFuc2l0aW9uLWFsbCBkdXJhdGlvbi0zMDAgaG92ZXI6LXRyYW5zbGF0ZS15LTIgaG92ZXI6c2NhbGUtWzEuMDJdIGFjdGl2ZTpzY2FsZS05NSAke3AuYm9yZGVyfSAke3AuYmdHbG93fWB9XG4gICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICB7LyogQmFja2dyb3VuZCBnbG93IG9yYiAqL31cbiAgICAgICAgICAgICAgICA8ZGl2XG4gICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJwb2ludGVyLWV2ZW50cy1ub25lIGFic29sdXRlIC1yaWdodC0xMiAtdG9wLTEyIGgtMzYgdy0zNiByb3VuZGVkLWZ1bGwgb3BhY2l0eS0yMCBibHVyLTJ4bCB0cmFuc2l0aW9uLW9wYWNpdHkgZ3JvdXAtaG92ZXI6b3BhY2l0eS00MFwiXG4gICAgICAgICAgICAgICAgICBzdHlsZT17eyBiYWNrZ3JvdW5kQ29sb3I6IHAuYWNjZW50IH19XG4gICAgICAgICAgICAgICAgLz5cblxuICAgICAgICAgICAgICAgIDxkaXY+XG4gICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlblwiPlxuICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LTR4bCBmaWx0ZXIgZHJvcC1zaGFkb3ctWzBfMF8xMnB4X3JnYmEoMjU1LDI1NSwyNTUsMC40KV1cIj5cbiAgICAgICAgICAgICAgICAgICAgICB7cC5pY29ufVxuICAgICAgICAgICAgICAgICAgICA8L3NwYW4+XG4gICAgICAgICAgICAgICAgICAgIDxzcGFuXG4gICAgICAgICAgICAgICAgICAgICAgY2xhc3NOYW1lPXtgcm91bmRlZC1mdWxsIHB4LTIuNSBweS0wLjUgdGV4dC1bMTBweF0gZm9udC1ib2xkIHVwcGVyY2FzZSB0cmFja2luZy13aWRlc3QgJHtcbiAgICAgICAgICAgICAgICAgICAgICAgIGlzTGVnZW5kYXJ5XG4gICAgICAgICAgICAgICAgICAgICAgICAgID8gXCJib3JkZXIgYm9yZGVyLWFtYmVyLTQwMC82MCBiZy1hbWJlci01MDAvMjAgdGV4dC1hbWJlci0zMDBcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICA6IGlzUmFyZVxuICAgICAgICAgICAgICAgICAgICAgICAgICA/IFwiYm9yZGVyIGJvcmRlci1yb3NlLTQwMC81MCBiZy1yb3NlLTUwMC8yMCB0ZXh0LXJvc2UtMzAwXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgOiBcImJvcmRlciBib3JkZXItY3lhbi00MDAvNDAgYmctY3lhbi01MDAvMjAgdGV4dC1jeWFuLTMwMFwiXG4gICAgICAgICAgICAgICAgICAgICAgfWB9XG4gICAgICAgICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICAgICAgICB7cC5yYXJpdHl9XG4gICAgICAgICAgICAgICAgICAgIDwvc3Bhbj5cbiAgICAgICAgICAgICAgICAgIDwvZGl2PlxuXG4gICAgICAgICAgICAgICAgICA8aDMgY2xhc3NOYW1lPVwibXQtNCBmb250LWRpc3BsYXkgdGV4dC14bCBmb250LWJvbGQgdHJhY2tpbmctd2lkZSB0ZXh0LXdoaXRlIGdyb3VwLWhvdmVyOnRleHQtY3lhbi0yMDAgdHJhbnNpdGlvbi1jb2xvcnNcIj5cbiAgICAgICAgICAgICAgICAgICAge3AubmFtZX1cbiAgICAgICAgICAgICAgICAgIDwvaDM+XG4gICAgICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9XCJmb250LXN0b3J5IHRleHQteHMgdHJhY2tpbmctd2lkZXIgdGV4dC1zbGF0ZS00MDAgdXBwZXJjYXNlXCI+XG4gICAgICAgICAgICAgICAgICAgIHtwLnRhZ2xpbmV9XG4gICAgICAgICAgICAgICAgICA8L3A+XG5cbiAgICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT1cIm10LTQgZm9udC1zYW5zIHRleHQteHMgbGVhZGluZy1yZWxheGVkIHRleHQtc2xhdGUtMzAwXCI+XG4gICAgICAgICAgICAgICAgICAgIHtwLmRlc2NyaXB0aW9ufVxuICAgICAgICAgICAgICAgICAgPC9wPlxuICAgICAgICAgICAgICAgIDwvZGl2PlxuXG4gICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJtdC02IGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlbiBib3JkZXItdCBib3JkZXItd2hpdGUvMTAgcHQtNFwiPlxuICAgICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwiZm9udC1kaXNwbGF5IHRleHQteHMgdHJhY2tpbmctd2lkZXN0IHRleHQtc2xhdGUtNTAwIGdyb3VwLWhvdmVyOnRleHQtY3lhbi0zMDAgdHJhbnNpdGlvbi1jb2xvcnNcIj5cbiAgICAgICAgICAgICAgICAgICAgS0VZIFt7aWR4ICsgMX1dXG4gICAgICAgICAgICAgICAgICA8L3NwYW4+XG4gICAgICAgICAgICAgICAgICA8c3BhblxuICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJyb3VuZGVkLWxnIHB4LTMgcHktMSBmb250LWRpc3BsYXkgdGV4dC14cyBmb250LWJvbGQgdHJhY2tpbmctd2lkZXIgdHJhbnNpdGlvbi1hbGwgZ3JvdXAtaG92ZXI6c2hhZG93LVswXzBfMTVweF9yZ2JhKDU2LDE4OSwyNDgsMC40KV1cIlxuICAgICAgICAgICAgICAgICAgICBzdHlsZT17e1xuICAgICAgICAgICAgICAgICAgICAgIGJhY2tncm91bmRDb2xvcjogYCR7cC5hY2NlbnR9MjVgLFxuICAgICAgICAgICAgICAgICAgICAgIGNvbG9yOiBwLmFjY2VudCxcbiAgICAgICAgICAgICAgICAgICAgICBib3JkZXI6IGAxcHggc29saWQgJHtwLmFjY2VudH02MGAsXG4gICAgICAgICAgICAgICAgICAgIH19XG4gICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgIElOU1RBTEwg4oaSXG4gICAgICAgICAgICAgICAgICA8L3NwYW4+XG4gICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgIDwvYnV0dG9uPlxuICAgICAgICAgICAgKTtcbiAgICAgICAgICB9KX1cbiAgICAgICAgPC9kaXY+XG4gICAgICA8L2Rpdj5cbiAgICA8L2Rpdj5cbiAgKTtcbn1cbiJdLCJmaWxlIjoiRTovVlNDb2RlL0dhbWVzL05FT04gUk9OSU4vc3JjL2NvbXBvbmVudHMvUGVya1NlbGVjdE1vZGFsLnRzeCJ9
