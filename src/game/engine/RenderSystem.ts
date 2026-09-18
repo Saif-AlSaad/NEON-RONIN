@@ -8,6 +8,8 @@ import {
   type EnemyEntity,
   type SpecialEntity,
   type SlashEntity,
+  type PlatformEntity,
+  type HazardEntity,
 } from "./types";
 import type { EnginePools } from "./ObjectPool";
 import type { CombatSystem } from "./CombatSystem";
@@ -33,6 +35,130 @@ export class RenderSystem {
     this.ronin = ronin;
   }
 
+  drawPlatforms(platforms: PlatformEntity[], bgTime: number) {
+    const ctx = this.ctx;
+    for (const plat of platforms) {
+      ctx.save();
+      // Holographic Body
+      ctx.fillStyle = "rgba(10, 18, 36, 0.82)";
+      rr(ctx, plat.x, plat.y, plat.w, plat.h, 4);
+      ctx.fill();
+
+      // Top glowing energy rail
+      ctx.shadowColor = plat.glow;
+      ctx.shadowBlur = 16;
+      ctx.fillStyle = plat.color;
+      ctx.fillRect(plat.x, plat.y, plat.w, 4);
+
+      // Support bracket accents
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.4)";
+      ctx.lineWidth = 1.2;
+      rr(ctx, plat.x, plat.y, plat.w, plat.h, 4);
+      ctx.stroke();
+
+      // Animated energy chevron tick
+      const pulseX = plat.x + ((bgTime * 70) % (plat.w - 18));
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(pulseX, plat.y + 1, 8, 2);
+
+      // Under-rail holographic glow
+      ctx.fillStyle = plat.glow + "20";
+      ctx.fillRect(plat.x + 4, plat.y + 4, plat.w - 8, plat.h - 6);
+
+      ctx.restore();
+    }
+  }
+
+  drawHazards(hazards: HazardEntity[], bgTime: number) {
+    const ctx = this.ctx;
+    for (const h of hazards) {
+      ctx.save();
+      if (h.type === "electric_grid" || h.type === "laser_gate") {
+        if (h.active) {
+          // Electric grid active lightning state
+          ctx.shadowColor = "#38bdf8";
+          ctx.shadowBlur = 22;
+          ctx.fillStyle = "rgba(56, 189, 248, 0.38)";
+          rr(ctx, h.x, h.y, h.w, h.h, 4);
+          ctx.fill();
+
+          // Lightning zig-zags
+          ctx.strokeStyle = "#f0f9ff";
+          ctx.lineWidth = 2.2;
+          ctx.beginPath();
+          ctx.moveTo(h.x, h.y + h.h / 2);
+          for (let px = h.x + 6; px < h.x + h.w; px += 12) {
+            const py = h.y + h.h / 2 + (Math.random() - 0.5) * h.h * 0.75;
+            ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+
+          // Border glow
+          ctx.strokeStyle = "#38bdf8";
+          ctx.strokeRect(h.x, h.y, h.w, h.h);
+        } else {
+          // Warning charge state
+          const chargePercent = h.timer / h.maxTimer;
+          const warnAlpha = 0.25 + Math.sin(bgTime * 14) * 0.15;
+          ctx.fillStyle = `rgba(239, 68, 68, ${warnAlpha})`;
+          rr(ctx, h.x, h.y, h.w, h.h, 4);
+          ctx.fill();
+
+          ctx.strokeStyle = chargePercent > 0.65 ? "#ef4444" : "#f59e0b";
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(h.x, h.y, h.w, h.h);
+
+          // Warning text
+          ctx.fillStyle = "#fef08a";
+          ctx.font = "bold 9px Inter, sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText("⚡ DANGER ⚡", h.x + h.w / 2, h.y + h.h / 2 + 3);
+        }
+      } else if (h.type === "plasma_barrel") {
+        if (!h.exploded) {
+          // Unexploded plasma barrel
+          ctx.translate(h.x, h.y);
+          // Shadow
+          ctx.fillStyle = "rgba(0,0,0,0.45)";
+          ctx.beginPath();
+          ctx.ellipse(h.w / 2, h.h + 2, h.w * 0.5, 4, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Metal canister
+          const canisterGrad = ctx.createLinearGradient(0, 0, h.w, 0);
+          canisterGrad.addColorStop(0, "#1e293b");
+          canisterGrad.addColorStop(0.5, "#475569");
+          canisterGrad.addColorStop(1, "#0f172a");
+          ctx.fillStyle = canisterGrad;
+          rr(ctx, 0, 0, h.w, h.h, 6);
+          ctx.fill();
+
+          // Glowing plasma core bands
+          ctx.shadowColor = "#06b6d4";
+          ctx.shadowBlur = 12;
+          ctx.fillStyle = "#22d3ee";
+          ctx.fillRect(3, 5, h.w - 6, 3);
+          ctx.fillRect(3, h.h - 8, h.w - 6, 3);
+          ctx.shadowBlur = 0;
+
+          // Biohazard warning emblem
+          ctx.fillStyle = "#fde047";
+          ctx.font = "bold 10px Inter, sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText("☣", h.w / 2, h.h / 2 + 3);
+        } else {
+          // Exploded debris
+          ctx.translate(h.x, h.y);
+          ctx.fillStyle = "rgba(24, 16, 24, 0.65)";
+          rr(ctx, 2, h.h - 6, h.w - 4, 6, 2);
+          ctx.fill();
+        }
+      }
+      ctx.restore();
+    }
+  }
+
   drawPlayer(p: PlayerState) {
     const ctx = this.ctx;
     ctx.save();
@@ -49,22 +175,37 @@ export class RenderSystem {
     } else if (p.dashT > 0) {
       ctx.shadowColor = "#67e8f9";
       ctx.shadowBlur = 24;
+    } else if (p.wallSliding) {
+      ctx.shadowColor = "#fde047";
+      ctx.shadowBlur = 16;
     }
 
-    // Shadow
-    ctx.fillStyle = "rgba(0,0,0,0.4)";
-    ctx.beginPath();
-    ctx.ellipse(0, 4, 18, 5, 0, 0, Math.PI * 2);
-    ctx.fill();
+    // Shadow (only if near ground or platform)
+    if (p.onGround) {
+      ctx.fillStyle = "rgba(0,0,0,0.4)";
+      ctx.beginPath();
+      ctx.ellipse(0, 4, 18, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     // Body
     ctx.save();
     ctx.scale(p.facing, 1);
 
+    // Wall slide grip pose adjustment
+    if (p.wallSliding) {
+      ctx.rotate(-p.facing * 0.12);
+    }
+
     // Legs
     ctx.fillStyle = "#1f1036";
-    ctx.fillRect(-8, -20, 6, 20);
-    ctx.fillRect(2, -20, 6, 20);
+    if (p.wallSliding) {
+      ctx.fillRect(-10, -24, 6, 24);
+      ctx.fillRect(-2, -18, 6, 18);
+    } else {
+      ctx.fillRect(-8, -20, 6, 20);
+      ctx.fillRect(2, -20, 6, 20);
+    }
 
     // Tunic
     ctx.fillStyle =
@@ -105,6 +246,8 @@ export class RenderSystem {
       ? -Math.PI * 0.75
       : slashing
       ? (1 - p.slashActive / 0.18) * -Math.PI * 0.9 - 0.3
+      : p.wallSliding
+      ? -Math.PI * 0.6
       : -0.4;
 
     ctx.save();
@@ -408,7 +551,7 @@ export class RenderSystem {
     ctx.font = "500 12px Inter, sans-serif";
     ctx.fillStyle = "rgba(226,232,240,0.6)";
     ctx.fillText(
-      "WASD move · J slash · K shuriken · L special · Shift dash · F parry · Space double-jump · Gamepad supported",
+      "WASD move · S+Space drop through · Wall slide/jump · J slash · K shuriken · L special · Shift dash · F parry",
       24,
       h - 22
     );
@@ -421,7 +564,8 @@ export class RenderSystem {
     bgTime: number,
     p: PlayerState,
     combat: CombatSystem,
-    pools: EnginePools
+    pools: EnginePools,
+    platforms: PlatformEntity[] = []
   ) {
     const ctx = this.ctx;
     ctx.clearRect(0, 0, w, h);
@@ -434,6 +578,10 @@ export class RenderSystem {
     const shakeY = combat.shake > 0 ? (Math.random() - 0.5) * combat.shake * 24 : 0;
     ctx.save();
     ctx.translate(shakeX, shakeY);
+
+    // Draw Platforms and Hazards
+    this.drawPlatforms(platforms, bgTime);
+    this.drawHazards(combat.hazards, bgTime);
 
     // Enemies
     this.drawEnemies(combat.enemies, bgTime);

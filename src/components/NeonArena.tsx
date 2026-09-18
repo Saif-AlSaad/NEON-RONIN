@@ -296,10 +296,13 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
                 <span className="font-sans font-bold text-cyan-300">A / D / Left Stick</span> — move
               </li>
               <li>
-                <span className="font-sans font-bold text-cyan-300">Space / W / (A)</span> — double-jump
+                <span className="font-sans font-bold text-cyan-300">Space / W / (A)</span> — double-jump & wall kick
               </li>
               <li>
-                <span className="font-sans font-bold text-cyan-300">J / (X)</span> — katana slash
+                <span className="font-sans font-bold text-amber-300">S + Space / Down + (A)</span> — drop through platforms
+              </li>
+              <li>
+                <span className="font-sans font-bold text-cyan-300">J / (X)</span> — katana slash (detonates barrels!)
               </li>
               <li>
                 <span className="font-sans font-bold text-yellow-300">F / (B)</span> — 🛡️ timed parry & deflect
@@ -315,7 +318,7 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
               </li>
             </ul>
             <p className="mt-4 font-story italic text-pink-200/70">
-              Timed parries reflect enemy bullets back at them! Clear waves to unlock cyberware augments.
+              Cling to boundary walls to wall-slide and wall-jump! Slash explosive plasma barrels to clear waves.
             </p>
             <button
               onClick={() => {

@@ -15,6 +15,7 @@ import {
   type StyleRank,
   type GameStatus,
   type EngineCallbacks,
+  type HazardEntity,
 } from "./types";
 import type { EnginePools } from "./ObjectPool";
 
@@ -22,6 +23,7 @@ export class CombatSystem {
   public enemies: EnemyEntity[] = [];
   public slashes: SlashEntity[] = [];
   public specials: SpecialEntity[] = [];
+  public hazards: HazardEntity[] = [];
 
   public score = 0;
   public gold = 0;
@@ -54,10 +56,15 @@ export class CombatSystem {
     this.audio = audio;
   }
 
+  setHazards(hazards: HazardEntity[]) {
+    this.hazards = hazards;
+  }
+
   reset(p: PlayerState, groundY: number) {
     this.enemies = [];
     this.slashes = [];
     this.specials = [];
+    this.hazards = [];
     this.pools.clearAll();
     this.score = 0;
     this.gold = 0;
@@ -428,6 +435,104 @@ export class CombatSystem {
     status: GameStatus,
     setStatus: (s: GameStatus) => void
   ) {
+    // ---- Environmental Hazards (Electric Grids & Plasma Barrels) ----
+    for (const h of this.hazards) {
+      if (h.type === "electric_grid" || h.type === "laser_gate") {
+        h.timer += dt;
+        if (h.timer >= h.maxTimer) {
+          h.timer = 0;
+          h.active = !h.active;
+          if (h.active) {
+            this.pools.addParticles(h.x + h.w / 2, h.y + h.h / 2, 8, "#38bdf8", 120, 2);
+          }
+        }
+
+        if (h.active) {
+          // Check player collision
+          if (
+            p.x >= h.x - 6 &&
+            p.x <= h.x + h.w + 6 &&
+            p.y >= h.y &&
+            p.y - PLAYER_H <= h.y + h.h
+          ) {
+            this.hurtPlayer(22, h.x + h.w / 2, p, perks, () => setStatus("dead"));
+          }
+
+          // Check enemies collision
+          for (const e of this.enemies) {
+            if (e.dead) continue;
+            if (
+              e.x >= h.x - 8 &&
+              e.x <= h.x + h.w + 8 &&
+              e.y + e.def.size.h >= h.y &&
+              e.y <= h.y + h.h
+            ) {
+              this.damageEnemy(e, 40, h.x + h.w / 2, p, perks);
+              e.kb = Math.sign(e.x - (h.x + h.w / 2)) * 320;
+            }
+          }
+        }
+      } else if (h.type === "plasma_barrel" && !h.exploded) {
+        // Check if slashed
+        let hitBarrel = false;
+        for (const s of this.slashes) {
+          const bx = h.x + h.w / 2;
+          const by = h.y + h.h / 2;
+          if (Math.hypot(bx - s.x, by - s.y) < s.reach + 18) {
+            hitBarrel = true;
+            break;
+          }
+        }
+
+        // Check if shot by projectiles
+        if (!hitBarrel) {
+          this.pools.projectiles.forEachActive((pr) => {
+            if (
+              pr.x >= h.x &&
+              pr.x <= h.x + h.w &&
+              pr.y >= h.y &&
+              pr.y <= h.y + h.h
+            ) {
+              hitBarrel = true;
+              pr.active = false;
+            }
+          });
+        }
+
+        if (hitBarrel) {
+          h.exploded = true;
+          const bx = h.x + h.w / 2;
+          const by = h.y + h.h / 2;
+          this.shake = Math.max(this.shake, 0.7);
+          this.screenFlash = 0.45;
+          this.audio?.playSfx("special");
+          this.input.vibrate(120, 0.8, 1.0);
+
+          this.pools.addRing(bx, by, 150, "#06b6d4", 0.45, 6);
+          this.pools.addRing(bx, by, 90, "#fde047", 0.35, 4);
+          this.pools.addParticles(bx, by, 32, "#22d3ee", 380, 4);
+          this.pools.addParticles(bx, by, 24, "#fbbf24", 280, 3);
+          this.pools.addFloat(bx, by - 14, "PLASMA DETONATION!", "#38bdf8", 1.4);
+
+          // AoE damage to nearby enemies
+          for (const e of this.enemies) {
+            if (e.dead) continue;
+            const dist = Math.hypot(e.x - bx, e.y + e.def.size.h / 2 - by);
+            if (dist < 190) {
+              this.damageEnemy(e, 140, bx, p, perks, true);
+              e.kb = Math.sign(e.x - bx) * 480;
+            }
+          }
+
+          // Damage to player if too close
+          const pDist = Math.hypot(p.x - bx, p.y - PLAYER_H / 2 - by);
+          if (pDist < 95) {
+            this.hurtPlayer(20, bx, p, perks, () => setStatus("dead"));
+          }
+        }
+      }
+    }
+
     // Slashes vs Enemies
     for (let i = this.slashes.length - 1; i >= 0; i--) {
       const s = this.slashes[i];

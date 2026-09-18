@@ -1,5 +1,6 @@
 export interface InputState {
   moveX: number; // -1 to 1
+  moveY: number; // -1 (up) to 1 (down)
   jump: boolean; // edge triggered
   jumpHeld: boolean;
   attack: boolean; // edge triggered
@@ -89,10 +90,13 @@ export class InputManager {
 
   public poll(): InputState {
     let moveX = 0;
+    let moveY = 0;
 
     // 1. Keyboard Movement
     if (this.keys.has("a") || this.keys.has("arrowleft")) moveX -= 1;
     if (this.keys.has("d") || this.keys.has("arrowright")) moveX += 1;
+    if (this.keys.has("w") || this.keys.has("arrowup")) moveY -= 1;
+    if (this.keys.has("s") || this.keys.has("arrowdown")) moveY += 1;
 
     // 2. Touch Movement
     if (Math.abs(this.touchX) > 0.1) {
@@ -125,9 +129,13 @@ export class InputManager {
       if (pad && pad.connected) {
         // Stick / Dpad move
         const axisX = pad.axes[0] ?? 0;
+        const axisY = pad.axes[1] ?? 0;
         if (Math.abs(axisX) > 0.25) moveX = axisX;
+        if (Math.abs(axisY) > 0.25) moveY = axisY;
         if (pad.buttons[14]?.pressed) moveX = -1;
         if (pad.buttons[15]?.pressed) moveX = 1;
+        if (pad.buttons[12]?.pressed) moveY = -1;
+        if (pad.buttons[13]?.pressed) moveY = 1;
 
         gJump = !!pad.buttons[0]?.pressed; // A / Cross
         gParry = !!pad.buttons[1]?.pressed; // B / Circle
@@ -159,6 +167,7 @@ export class InputManager {
 
     const state: InputState = {
       moveX: Math.max(-1, Math.min(1, moveX)),
+      moveY: Math.max(-1, Math.min(1, moveY)),
       jump: isJumpDown && !wasJumpDown,
       jumpHeld: isJumpDown,
       attack: isAttackDown && !wasAttackDown,

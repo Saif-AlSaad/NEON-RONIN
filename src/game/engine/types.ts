@@ -4,6 +4,39 @@ import type { Perk } from "../perks";
 export type GameStatus = "ready" | "playing" | "wave_interlude" | "perk_select" | "win" | "dead";
 export type StyleRank = "D" | "C" | "B" | "A" | "S" | "SSS";
 
+export interface PlatformEntity {
+  id: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  color: string;
+  glow: string;
+  oneWay: boolean;
+}
+
+export interface HazardEntity {
+  id: string;
+  type: "laser_gate" | "electric_grid" | "plasma_barrel";
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  active: boolean;
+  timer: number;
+  maxTimer: number;
+  exploded?: boolean;
+  hp?: number;
+}
+
+export interface SectorConfig {
+  name: string;
+  subtitle: string;
+  themeColor: string;
+  platforms: PlatformEntity[];
+  hazards: HazardEntity[];
+}
+
 export interface EnemyEntity {
   def: EnemyDef;
   x: number;
@@ -21,6 +54,7 @@ export interface EnemyEntity {
   phase2: boolean;
   deathT: number;
   bleedT?: number;
+  currentPlatformId?: string | null;
 }
 
 export interface ProjectileEntity {
@@ -133,6 +167,10 @@ export interface PlayerState {
   slashActive: number;
   slashDir: number;
   swordTrail: SwordTrailPoint[];
+  wallSliding: boolean;
+  wallDir: number;
+  dropThroughTimer: number;
+  currentPlatformId?: string | null;
 }
 
 export interface CombatStats {
@@ -155,3 +193,4 @@ export const DASH_DURATION = 0.18;
 export const DOUBLE_JUMP = true;
 export const ARENA_PADDING = 40;
 export const FIXED_STEP = 1 / 60;
+export const WALL_SLIDE_SPEED = 180;
