@@ -3,6 +3,8 @@ import { cn } from "../utils/cn";
 interface Props {
   onStart: () => void;
   onArchives?: () => void;
+  onDojo?: () => void;
+  onSettings?: () => void;
 }
 
 const SUN = (
@@ -21,7 +23,7 @@ const SUN = (
   </svg>
 );
 
-export default function TitleScreen({ onStart, onArchives }: Props) {
+export default function TitleScreen({ onStart, onArchives, onDojo, onSettings }: Props) {
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
       {/* Synthwave sky */}
@@ -76,7 +78,7 @@ export default function TitleScreen({ onStart, onArchives }: Props) {
           shogun. Draw your blade, neon-streaked and hungry.
         </p>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row flex-wrap">
           <button
             onClick={onStart}
             className={cn(
@@ -88,13 +90,33 @@ export default function TitleScreen({ onStart, onArchives }: Props) {
             <span className="relative z-10">▶ DRAW BLADE</span>
           </button>
 
+          {onDojo && (
+            <button
+              onClick={onDojo}
+              className="animate-fade-in-up rounded-xl border border-cyan-400/40 bg-cyan-950/40 px-6 py-3.5 font-display text-sm font-bold tracking-widest text-cyan-200 transition-all hover:border-cyan-300 hover:bg-cyan-900/40 hover:shadow-[0_0_25px_rgba(34,211,238,0.35)] active:scale-95"
+              style={{ animationDelay: "0.43s" }}
+            >
+              🦾 CYBER-DOJO
+            </button>
+          )}
+
           {onArchives && (
             <button
               onClick={onArchives}
               className="animate-fade-in-up rounded-xl border border-white/20 bg-slate-950/60 px-6 py-3.5 font-display text-sm font-bold tracking-widest text-slate-300 transition-all hover:border-amber-400/60 hover:text-amber-200 hover:shadow-[0_0_25px_rgba(251,191,36,0.3)] active:scale-95"
-              style={{ animationDelay: "0.45s" }}
+              style={{ animationDelay: "0.46s" }}
             >
-              🏆 TROPHIES & STATS
+              🏆 TROPHIES
+            </button>
+          )}
+
+          {onSettings && (
+            <button
+              onClick={onSettings}
+              className="animate-fade-in-up rounded-xl border border-white/20 bg-slate-950/60 px-5 py-3.5 font-display text-sm font-bold tracking-widest text-slate-300 transition-all hover:border-pink-400/60 hover:text-pink-200 hover:shadow-[0_0_25px_rgba(236,72,153,0.3)] active:scale-95"
+              style={{ animationDelay: "0.49s" }}
+            >
+              ⚙️ SETTINGS
             </button>
           )}
         </div>

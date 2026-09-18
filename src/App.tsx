@@ -6,6 +6,8 @@ import CharacterSelect from "./components/CharacterSelect";
 import NeonArena from "./components/NeonArena";
 import AchievementsModal from "./components/AchievementsModal";
 import AchievementToast from "./components/AchievementToast";
+import CyberDojoModal from "./components/CyberDojoModal";
+import SettingsModal from "./components/SettingsModal";
 
 type Screen = "title" | "select" | "game";
 
@@ -13,6 +15,8 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>("title");
   const [ronin, setRonin] = useState<Ronin | null>(null);
   const [showArchives, setShowArchives] = useState(false);
+  const [showDojo, setShowDojo] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#0a0318] text-slate-100">
@@ -24,6 +28,8 @@ export default function App() {
         <TitleScreen
           onStart={() => setScreen("select")}
           onArchives={() => setShowArchives(true)}
+          onDojo={() => setShowDojo(true)}
+          onSettings={() => setShowSettings(true)}
         />
       )}
 
@@ -47,6 +53,14 @@ export default function App() {
 
       {showArchives && (
         <AchievementsModal onClose={() => setShowArchives(false)} />
+      )}
+
+      {showDojo && (
+        <CyberDojoModal onClose={() => setShowDojo(false)} />
+      )}
+
+      {showSettings && (
+        <SettingsModal onClose={() => setShowSettings(false)} />
       )}
     </div>
   );

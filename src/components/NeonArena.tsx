@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import type { Ronin } from "../types";
 import { GameAudio } from "../game/audio";
 import { unlockAchievement } from "../game/achievements";
+import { addNeonShards } from "../game/meta";
 import type { Perk } from "../game/perks";
 import { GameEngine } from "../game/engine/GameEngine";
 import PerkSelectModal from "./PerkSelectModal";
 import TouchControls from "./TouchControls";
 import AchievementsModal from "./AchievementsModal";
 import AchievementToast from "./AchievementToast";
+import SettingsModal from "./SettingsModal";
 
 interface Props {
   ronin: Ronin;
@@ -54,8 +56,10 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
   const audioRef = useRef<GameAudio | null>(null);
 
   const [result, setResult] = useState<{ win: boolean; score: number; wave: number } | null>(null);
+  const [earnedShards, setEarnedShards] = useState<number>(0);
   const [showHelp, setShowHelp] = useState(true);
   const [showSound, setShowSound] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [touchEnabled, setTouchEnabled] = useState(
     typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0)
@@ -134,7 +138,14 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
       canvas,
       ronin,
       {
-        onGameOver: (res) => setResult(res),
+        onGameOver: (res) => {
+          const kills = engineRef.current?.combat.stats.kills ?? 0;
+          const parries = engineRef.current?.combat.stats.parries ?? 0;
+          const shards = Math.max(5, Math.floor(res.score / 50) + res.wave * 8 + kills * 2 + parries * 3);
+          addNeonShards(shards);
+          setEarnedShards(shards);
+          setResult(res);
+        },
         onPerkDraft: (choices) => setPerkChoices(choices),
         onGamepadNotice: (name) => {
           setGamepadNotice(`🎮 ${name} CONNECTED`);
@@ -204,6 +215,16 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
           🏆
         </button>
 
+        {/* Settings & Accessibility Button */}
+        <button
+          onClick={() => setShowSettings(true)}
+          aria-label="Settings and Accessibility"
+          title="Settings & Accessibility"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-white/15 bg-slate-950/70 text-lg backdrop-blur-sm transition-all hover:border-cyan-400/60 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] active:scale-90"
+        >
+          ⚙️
+        </button>
+
         {/* Mobile Touch Controls Toggle */}
         <button
           onClick={() => setTouchEnabled((t) => !t)}
@@ -218,6 +239,14 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
           📱
         </button>
       </div>
+
+      {/* Settings Modal */}
+      {showSettings && (
+        <SettingsModal
+          onClose={() => setShowSettings(false)}
+          onVolumeChange={(k, v) => changeVolume(k, v)}
+        />
+      )}
 
       {/* Sound Settings Modal */}
       {showSound && (
@@ -365,6 +394,12 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
                 <p className="font-display text-xl font-bold text-fuchsia-300">Wave {result.wave}</p>
                 <p className="text-[11px] uppercase tracking-wider text-slate-400">Reached</p>
               </div>
+              {earnedShards > 0 && (
+                <div className="col-span-2 rounded-xl bg-cyan-950/50 p-3 ring-1 ring-cyan-400/50 shadow-[0_0_20px_rgba(6,182,212,0.25)]">
+                  <p className="font-display text-2xl font-black text-cyan-300">+{earnedShards} 💎</p>
+                  <p className="text-[11px] uppercase tracking-wider text-cyan-200">Neon Shards Secured</p>
+                </div>
+              )}
             </div>
             <div className="mt-7 flex flex-col gap-2 sm:flex-row sm:justify-center">
               {!result.win && (

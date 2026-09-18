@@ -14,6 +14,9 @@ import {
 import type { EnginePools } from "./ObjectPool";
 import type { CombatSystem } from "./CombatSystem";
 
+import type { BladeStanceDef } from "../meta";
+import type { GameSettings } from "../settings";
+
 function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -25,6 +28,9 @@ function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: n
 }
 
 export class RenderSystem {
+  public bladeStance?: BladeStanceDef;
+  public settings?: GameSettings;
+
   constructor(
     private ctx: CanvasRenderingContext2D,
     private ronin: Ronin,
@@ -33,6 +39,14 @@ export class RenderSystem {
 
   setRonin(ronin: Ronin) {
     this.ronin = ronin;
+  }
+
+  setBladeStance(stance: BladeStanceDef) {
+    this.bladeStance = stance;
+  }
+
+  setSettings(settings: GameSettings) {
+    this.settings = settings;
   }
 
   drawPlatforms(platforms: PlatformEntity[], bgTime: number) {
@@ -259,12 +273,17 @@ export class RenderSystem {
     ctx.fillRect(-2, -3, 10, 6);
 
     // Blade
+    const blade = this.bladeStance ?? {
+      primaryColor: "#e0f2fe",
+      glowColor: "#06b6d4",
+      trailColor: "#67e8f9",
+    };
     const bladeGrad = ctx.createLinearGradient(8, 0, 56, 0);
-    bladeGrad.addColorStop(0, parrying ? "#fef08a" : "#e0f2fe");
-    bladeGrad.addColorStop(1, parrying ? "#fbbf24" : "#93c5fd");
+    bladeGrad.addColorStop(0, parrying ? "#fef08a" : blade.primaryColor);
+    bladeGrad.addColorStop(1, parrying ? "#fbbf24" : blade.glowColor);
     ctx.fillStyle = bladeGrad;
-    ctx.shadowColor = parrying ? "#fbbf24" : "#67e8f9";
-    ctx.shadowBlur = slashing || parrying ? 20 : 8;
+    ctx.shadowColor = parrying ? "#fbbf24" : blade.glowColor;
+    ctx.shadowBlur = slashing || parrying ? 22 : 10;
     ctx.fillRect(8, -2, 48, 4);
     ctx.shadowBlur = 0;
 
@@ -574,8 +593,9 @@ export class RenderSystem {
     this.bg.render(ctx, w, h, groundY, bgTime);
 
     // Screen Shake
-    const shakeX = combat.shake > 0 ? (Math.random() - 0.5) * combat.shake * 24 : 0;
-    const shakeY = combat.shake > 0 ? (Math.random() - 0.5) * combat.shake * 24 : 0;
+    const shakeIntensity = this.settings?.shakeIntensity ?? 1.0;
+    const shakeX = combat.shake > 0 ? (Math.random() - 0.5) * combat.shake * 24 * shakeIntensity : 0;
+    const shakeY = combat.shake > 0 ? (Math.random() - 0.5) * combat.shake * 24 * shakeIntensity : 0;
     ctx.save();
     ctx.translate(shakeX, shakeY);
 
@@ -651,7 +671,7 @@ export class RenderSystem {
     ctx.fillStyle = vg;
     ctx.fillRect(0, 0, w, h);
 
-    if (combat.screenFlash > 0) {
+    if (combat.screenFlash > 0 && (this.settings?.screenFlashEnabled ?? true)) {
       ctx.fillStyle = `rgba(255,255,255,${Math.min(0.4, combat.screenFlash * 0.6)})`;
       ctx.fillRect(0, 0, w, h);
     }

@@ -18,6 +18,8 @@ import { EnginePools } from "./ObjectPool";
 import { PhysicsSystem } from "./PhysicsSystem";
 import { CombatSystem } from "./CombatSystem";
 import { RenderSystem } from "./RenderSystem";
+import { getAggregatedMetaBonus } from "../meta";
+import { loadSettings, type GameSettings } from "../settings";
 
 export class GameEngine {
   private canvas: HTMLCanvasElement;
@@ -63,6 +65,11 @@ export class GameEngine {
     this.combat = new CombatSystem(ronin, this.audio, this.input, this.pools, callbacks);
     this.renderSystem = new RenderSystem(this.ctx, ronin, this.bg);
 
+    const meta = getAggregatedMetaBonus();
+    const settings = loadSettings();
+    this.renderSystem.setBladeStance(meta.bladeStance);
+    this.renderSystem.setSettings(settings);
+
     this.aggregatedPerks = aggregatePerks([]);
     this.player = {
       x: 200,
@@ -71,10 +78,10 @@ export class GameEngine {
       vy: 0,
       facing: 1,
       onGround: false,
-      hp: ronin.stats.maxHp,
-      maxHp: ronin.stats.maxHp,
-      energy: ronin.stats.maxEnergy,
-      maxEnergy: ronin.stats.maxEnergy,
+      hp: ronin.stats.maxHp + meta.bonusMaxHp,
+      maxHp: ronin.stats.maxHp + meta.bonusMaxHp,
+      energy: ronin.stats.maxEnergy + meta.bonusMaxEnergy,
+      maxEnergy: ronin.stats.maxEnergy + meta.bonusMaxEnergy,
       atkCd: 0,
       shurikenCd: 0,
       dashCd: 0,
@@ -91,6 +98,10 @@ export class GameEngine {
       wallDir: 0,
       dropThroughTimer: 0,
     };
+
+    if (meta.startingGold > 0) {
+      this.combat.gold = meta.startingGold;
+    }
 
     this.input.onGamepadConnected = (name) => {
       this.callbacks.onGamepadNotice?.(name);
@@ -116,6 +127,10 @@ export class GameEngine {
         this.player.hp = Math.min(this.player.maxHp, this.player.hp + p.effect.bonusMaxHp);
       }
     }
+  }
+
+  applySettings(settings: GameSettings) {
+    this.renderSystem.setSettings(settings);
   }
 
   private getWidth() {
