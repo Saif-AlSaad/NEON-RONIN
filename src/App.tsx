@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Ronin } from "./types";
+import type { Ronin, LevelConfig } from "./types";
 import Starfield from "./components/Starfield";
 import TitleScreen from "./components/TitleScreen";
 import CharacterSelect from "./components/CharacterSelect";
@@ -8,12 +8,15 @@ import AchievementsModal from "./components/AchievementsModal";
 import AchievementToast from "./components/AchievementToast";
 import CyberDojoModal from "./components/CyberDojoModal";
 import SettingsModal from "./components/SettingsModal";
+import CampaignSelectModal from "./components/CampaignSelectModal";
 
 type Screen = "title" | "select" | "game";
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>("title");
   const [ronin, setRonin] = useState<Ronin | null>(null);
+  const [showCampaignSelect, setShowCampaignSelect] = useState(false);
+  const [campaignLevel, setCampaignLevel] = useState<LevelConfig | null>(null);
   const [showArchives, setShowArchives] = useState(false);
   const [showDojo, setShowDojo] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -26,7 +29,11 @@ export default function App() {
 
       {screen === "title" && (
         <TitleScreen
-          onStart={() => setScreen("select")}
+          onCampaign={() => setShowCampaignSelect(true)}
+          onStart={() => {
+            setCampaignLevel(null);
+            setScreen("select");
+          }}
           onArchives={() => setShowArchives(true)}
           onDojo={() => setShowDojo(true)}
           onSettings={() => setShowSettings(true)}
@@ -45,9 +52,36 @@ export default function App() {
 
       {screen === "game" && ronin && (
         <NeonArena
+          key={campaignLevel ? `campaign-${campaignLevel.level}` : "arcade"}
           ronin={ronin}
-          onTitle={() => setScreen("title")}
+          levelConfig={campaignLevel ?? undefined}
+          onNextLevel={(nextConfig) => {
+            setCampaignLevel(nextConfig);
+          }}
+          onCampaignMap={() => {
+            setScreen("title");
+            setShowCampaignSelect(true);
+          }}
+          onTitle={() => {
+            setCampaignLevel(null);
+            setScreen("title");
+          }}
           onRestart={() => setScreen("select")}
+        />
+      )}
+
+      {showCampaignSelect && (
+        <CampaignSelectModal
+          onClose={() => setShowCampaignSelect(false)}
+          onDeployLevel={(lvl) => {
+            setCampaignLevel(lvl);
+            setShowCampaignSelect(false);
+            if (ronin) {
+              setScreen("game");
+            } else {
+              setScreen("select");
+            }
+          }}
         />
       )}
 

@@ -1,7 +1,10 @@
+import { useState, useEffect } from "react";
 import { cn } from "../utils/cn";
+import { loadCampaignProgress } from "../game/campaign/progression";
 
 interface Props {
   onStart: () => void;
+  onCampaign?: () => void;
   onArchives?: () => void;
   onDojo?: () => void;
   onSettings?: () => void;
@@ -23,7 +26,14 @@ const SUN = (
   </svg>
 );
 
-export default function TitleScreen({ onStart, onArchives, onDojo, onSettings }: Props) {
+export default function TitleScreen({ onStart, onCampaign, onArchives, onDojo, onSettings }: Props) {
+  const [campaignProgress, setCampaignProgress] = useState(1);
+
+  useEffect(() => {
+    const prog = loadCampaignProgress();
+    setCampaignProgress(prog.highestUnlockedLevel);
+  }, []);
+
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
       {/* Synthwave sky */}
@@ -74,20 +84,37 @@ export default function TitleScreen({ onStart, onArchives, onDojo, onSettings }:
           className="animate-fade-in-up mx-auto mt-6 max-w-md font-story text-lg italic text-pink-100/80 sm:text-xl"
           style={{ animationDelay: "0.28s" }}
         >
-          Ten waves of raiders, archers, and oni stand between you and the
-          shogun. Draw your blade, neon-streaked and hungry.
+          Conquer the 100-level cyber wasteland across 10 dangerous sectors,
+          or test your mettle in the classic endless arcade arena.
         </p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row flex-wrap">
+          {onCampaign && (
+            <button
+              onClick={onCampaign}
+              className={cn(
+                "animate-fade-in-up group relative overflow-hidden rounded-xl border-2 border-cyan-300 bg-gradient-to-r from-cyan-600/70 via-indigo-600/70 to-fuchsia-600/70 px-8 py-3.5 font-display text-base sm:text-lg font-black tracking-[0.18em] text-white shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_60px_rgba(236,72,153,0.7)] active:scale-95",
+                "after:pointer-events-none after:absolute after:inset-0 after:rounded-xl after:ring-2 after:ring-cyan-300/40 after:animate-pulse-glow"
+              )}
+              style={{ animationDelay: "0.36s" }}
+            >
+              <div className="relative z-10 flex items-center gap-2.5">
+                <span>⚔️ 100-LEVEL CAMPAIGN</span>
+                <span className="rounded bg-black/60 px-2 py-0.5 text-xs font-mono font-bold text-cyan-300 border border-cyan-400/50">
+                  LVL {campaignProgress}
+                </span>
+              </div>
+            </button>
+          )}
+
           <button
             onClick={onStart}
             className={cn(
-              "animate-fade-in-up group relative overflow-hidden rounded-xl border-2 border-cyan-300/70 bg-gradient-to-b from-pink-500/25 to-fuchsia-900/30 px-10 py-3.5 font-display text-lg font-black tracking-[0.25em] text-cyan-100 shadow-[0_0_35px_rgba(236,72,153,0.45)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_60px_rgba(56,189,248,0.55)] active:scale-95",
-              "after:pointer-events-none after:absolute after:inset-0 after:rounded-xl after:ring-2 after:ring-cyan-300/30 after:animate-pulse-glow"
+              "animate-fade-in-up group relative overflow-hidden rounded-xl border-2 border-pink-400/70 bg-gradient-to-b from-pink-500/25 to-fuchsia-900/30 px-7 py-3.5 font-display text-base sm:text-lg font-black tracking-[0.18em] text-pink-100 shadow-[0_0_30px_rgba(236,72,153,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_45px_rgba(236,72,153,0.55)] active:scale-95"
             )}
             style={{ animationDelay: "0.4s" }}
           >
-            <span className="relative z-10">▶ DRAW BLADE</span>
+            <span className="relative z-10">▶ ARCADE RUN (10 WAVES)</span>
           </button>
 
           {onDojo && (

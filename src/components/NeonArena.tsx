@@ -5,6 +5,8 @@ import { unlockAchievement } from "../game/achievements";
 import { addNeonShards } from "../game/meta";
 import type { Perk } from "../game/perks";
 import { GameEngine } from "../game/engine/GameEngine";
+import type { LevelConfig } from "../game/campaign/levels";
+import { recordLevelCompletion, getLevelConfig } from "../game/campaign/campaign";
 import PerkSelectModal from "./PerkSelectModal";
 import TouchControls from "./TouchControls";
 import AchievementsModal from "./AchievementsModal";
@@ -13,8 +15,11 @@ import SettingsModal from "./SettingsModal";
 
 interface Props {
   ronin: Ronin;
+  levelConfig?: LevelConfig;
   onTitle: () => void;
   onRestart: () => void;
+  onNextLevel?: (nextConfig: LevelConfig) => void;
+  onCampaignMap?: () => void;
 }
 
 function loadVol(key: string, def: number) {
@@ -50,7 +55,14 @@ function VolumeSlider({
   );
 }
 
-export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
+export default function NeonArena({
+  ronin,
+  levelConfig,
+  onTitle,
+  onRestart,
+  onNextLevel,
+  onCampaignMap,
+}: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<GameEngine | null>(null);
   const audioRef = useRef<GameAudio | null>(null);
@@ -141,7 +153,18 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
         onGameOver: (res) => {
           const kills = engineRef.current?.combat.stats.kills ?? 0;
           const parries = engineRef.current?.combat.stats.parries ?? 0;
-          const shards = Math.max(5, Math.floor(res.score / 50) + res.wave * 8 + kills * 2 + parries * 3);
+          let shards = Math.max(5, Math.floor(res.score / 50) + res.wave * 8 + kills * 2 + parries * 3);
+
+          if (levelConfig && res.win) {
+            shards += levelConfig.reward.neonShards;
+            recordLevelCompletion(
+              levelConfig.level,
+              res.score,
+              Math.round(engineRef.current?.combat.waveTime ?? 30),
+              3
+            );
+          }
+
           addNeonShards(shards);
           setEarnedShards(shards);
           setResult(res);
@@ -155,6 +178,10 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
       audioRef.current
     );
     engineRef.current = engine;
+
+    if (levelConfig) {
+      engine.setLevelConfig(levelConfig);
+    }
 
     const handleResize = () => engine.resize();
     window.addEventListener("resize", handleResize);
@@ -170,11 +197,24 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
       audioRef.current?.dispose();
       audioRef.current = null;
     };
-  }, [ronin]);
+  }, [ronin, levelConfig]);
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-black select-none">
       <canvas ref={canvasRef} className="block h-full w-full" />
+
+      {/* Campaign Level Header Banner */}
+      {levelConfig && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 rounded-full border border-cyan-400/40 bg-black/80 px-5 py-1.5 shadow-[0_0_25px_rgba(6,182,212,0.35)] backdrop-blur-md animate-fadeIn">
+          <span className="font-display text-xs font-black tracking-widest text-cyan-300">
+            SECTOR {levelConfig.sector} • LEVEL {levelConfig.level}
+          </span>
+          <span className="text-slate-600">|</span>
+          <span className="text-xs font-mono font-medium text-pink-200 truncate max-w-[240px] sm:max-w-md">
+            {levelConfig.objective.description}
+          </span>
+        </div>
+      )}
 
       {/* Gamepad Connected Toast */}
       {gamepadNotice && (
@@ -368,7 +408,7 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
           <div className="w-full max-w-md rounded-2xl border-2 border-pink-400/40 bg-slate-950/85 p-8 text-center shadow-[0_0_60px_rgba(236,72,153,0.35)]">
             <div className="text-6xl">{result.win ? "🏆" : "💀"}</div>
             <h2
-              className="mt-4 font-display text-4xl font-black"
+              className="mt-4 font-display text-3xl sm:text-4xl font-black"
               style={{
                 background: result.win
                   ? "linear-gradient(180deg,#fef3c7,#ff4d8a)"
@@ -378,10 +418,20 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
                 color: "transparent",
               }}
             >
-              {result.win ? "SHOGUN SLAIN" : "YOU HAVE FALLEN"}
+              {levelConfig
+                ? result.win
+                  ? `LEVEL ${levelConfig.level} CONQUERED`
+                  : `LEVEL ${levelConfig.level} FAILED`
+                : result.win
+                ? "SHOGUN SLAIN"
+                : "YOU HAVE FALLEN"}
             </h2>
-            <p className="mt-3 font-story text-lg text-pink-100/80">
-              {result.win
+            <p className="mt-3 font-story text-base sm:text-lg text-pink-100/80">
+              {levelConfig
+                ? result.win
+                  ? `${levelConfig.sectorName} secured. Your blade strikes true.`
+                  : "The cybernetic horde overwhelmed your guard. Re-engage when ready."
+                : result.win
                 ? "The wastes belong to your blade. Neon lights flicker in your wake."
                 : "The neon grows dim... but every ronin rises again."}
             </p>
@@ -391,8 +441,12 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
                 <p className="text-[11px] uppercase tracking-wider text-slate-400">Score</p>
               </div>
               <div className="rounded-xl bg-black/30 p-3 ring-1 ring-white/10">
-                <p className="font-display text-xl font-bold text-fuchsia-300">Wave {result.wave}</p>
-                <p className="text-[11px] uppercase tracking-wider text-slate-400">Reached</p>
+                <p className="font-display text-xl font-bold text-fuchsia-300">
+                  {levelConfig ? `★ ★ ★` : `Wave ${result.wave}`}
+                </p>
+                <p className="text-[11px] uppercase tracking-wider text-slate-400">
+                  {levelConfig ? "Rating" : "Reached"}
+                </p>
               </div>
               {earnedShards > 0 && (
                 <div className="col-span-2 rounded-xl bg-cyan-950/50 p-3 ring-1 ring-cyan-400/50 shadow-[0_0_20px_rgba(6,182,212,0.25)]">
@@ -401,29 +455,56 @@ export default function NeonArena({ ronin, onTitle, onRestart }: Props) {
                 </div>
               )}
             </div>
-            <div className="mt-7 flex flex-col gap-2 sm:flex-row sm:justify-center">
-              {!result.win && (
+
+            <div className="mt-7 flex flex-col gap-2.5 sm:justify-center">
+              {/* Campaign Next Level Button */}
+              {result.win && levelConfig && levelConfig.level < 100 && onNextLevel && (
                 <button
-                  onClick={() => window.location.reload()}
-                  className="rounded-xl border-2 border-cyan-300/50 bg-gradient-to-b from-pink-500/30 to-fuchsia-900/40 px-6 py-3 font-display font-black tracking-widest text-cyan-100 transition-all hover:shadow-[0_0_30px_rgba(56,189,248,0.4)] active:scale-95"
+                  onClick={() => {
+                    const nextConfig = getLevelConfig(levelConfig.level + 1);
+                    onNextLevel(nextConfig);
+                  }}
+                  className="rounded-xl border-2 border-cyan-300 bg-gradient-to-r from-cyan-500 to-pink-600 px-6 py-3 font-display font-black tracking-widest text-white shadow-[0_0_30px_rgba(6,182,212,0.5)] transition-all hover:scale-105 active:scale-95 cursor-pointer"
                 >
-                  RISE AGAIN
+                  ⚡ NEXT LEVEL ({levelConfig.level + 1}) ▶
                 </button>
               )}
-              {result.win && (
+
+              <div className="flex gap-2 justify-center flex-wrap">
+                {!result.win && (
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="rounded-xl border-2 border-cyan-300/50 bg-gradient-to-b from-pink-500/30 to-fuchsia-900/40 px-5 py-2.5 font-display font-black tracking-widest text-cyan-100 transition-all hover:shadow-[0_0_30px_rgba(56,189,248,0.4)] active:scale-95"
+                  >
+                    RETRY
+                  </button>
+                )}
+
+                {levelConfig && onCampaignMap && (
+                  <button
+                    onClick={onCampaignMap}
+                    className="rounded-xl border-2 border-cyan-500/40 bg-cyan-950/50 px-5 py-2.5 font-display font-bold tracking-widest text-cyan-200 transition-all hover:border-cyan-300 hover:bg-cyan-900/50 active:scale-95"
+                  >
+                    🗺️ MAP
+                  </button>
+                )}
+
+                {result.win && !levelConfig && (
+                  <button
+                    onClick={onRestart}
+                    className="rounded-xl border-2 border-cyan-300/50 bg-gradient-to-b from-pink-500/30 to-fuchsia-900/40 px-5 py-2.5 font-display font-black tracking-widest text-cyan-100 transition-all hover:shadow-[0_0_30px_rgba(56,189,248,0.4)] active:scale-95"
+                  >
+                    NEW RONIN
+                  </button>
+                )}
+
                 <button
-                  onClick={onRestart}
-                  className="rounded-xl border-2 border-cyan-300/50 bg-gradient-to-b from-pink-500/30 to-fuchsia-900/40 px-6 py-3 font-display font-black tracking-widest text-cyan-100 transition-all hover:shadow-[0_0_30px_rgba(56,189,248,0.4)] active:scale-95"
+                  onClick={onTitle}
+                  className="rounded-xl border-2 border-white/15 bg-white/5 px-5 py-2.5 font-display font-bold tracking-widest text-slate-200 transition-all hover:bg-white/10 active:scale-95"
                 >
-                  NEW RONIN
+                  TITLE
                 </button>
-              )}
-              <button
-                onClick={onTitle}
-                className="rounded-xl border-2 border-white/15 bg-white/5 px-6 py-3 font-display font-bold tracking-widest text-slate-200 transition-all hover:bg-white/10 active:scale-95"
-              >
-                Title
-              </button>
+              </div>
             </div>
           </div>
         </div>
