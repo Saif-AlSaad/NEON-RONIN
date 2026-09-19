@@ -46,3 +46,16 @@ export interface Wave {
   isBoss?: boolean;
   name?: string;
 }
+
+// Campaign exports
+export type {
+  SectorDef,
+  DifficultyModifiers,
+  ObjectiveType,
+  LevelObjective,
+  LevelReward,
+  LevelConfig,
+  CampaignState,
+  LevelRecord,
+} from "./game/campaign/campaign";
+
