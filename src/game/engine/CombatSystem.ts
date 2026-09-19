@@ -1,9 +1,10 @@
-import type { Ronin } from "../types";
+import type { Ronin, Wave } from "../types";
 import { ENEMIES, WAVES } from "../ronin";
 import { unlockAchievement, recordRunResult } from "../achievements";
 import { drawPerkOptions, type AggregatedPerks } from "../perks";
 import type { GameAudio } from "../audio";
 import type { InputManager } from "../input";
+import type { DifficultyModifiers } from "../campaign/difficulty";
 import {
   PLAYER_W,
   PLAYER_H,
@@ -34,6 +35,9 @@ export class CombatSystem {
   public styleMultiplier = 1.0;
   public stats: CombatStats = { kills: 0, parries: 0 };
 
+  public waves: Wave[] = WAVES;
+  public difficulty: DifficultyModifiers | null = null;
+
   public waveIdx = -1;
   public waveTime = 0;
   public waveDamageTaken = 0;
@@ -58,6 +62,14 @@ export class CombatSystem {
 
   setHazards(hazards: HazardEntity[]) {
     this.hazards = hazards;
+  }
+
+  setWaves(waves: Wave[]) {
+    this.waves = waves;
+  }
+
+  setDifficulty(diff: DifficultyModifiers | null) {
+    this.difficulty = diff;
   }
 
   reset(p: PlayerState, groundY: number) {
@@ -124,28 +136,50 @@ export class CombatSystem {
     }
   }
 
-  spawnEnemy(id: string, w: number, groundY: number) {
+  spawnEnemy(id: string, w: number, groundY: number, isElite: boolean = false) {
     const def = ENEMIES[id];
     if (!def) return;
     const fromLeft = Math.random() < 0.5;
     const x = fromLeft ? -40 : w + 40;
     const y = groundY - def.size.h;
+
+    const hpMult = (this.difficulty?.hpMultiplier ?? 1.0) * (isElite ? 1.75 : 1.0);
+    const dmgMult = (this.difficulty?.damageMultiplier ?? 1.0) * (isElite ? 1.25 : 1.0);
+    const speedMult = (this.difficulty?.speedMultiplier ?? 1.0) * (isElite ? 1.08 : 1.0);
+    const attackFreq = this.difficulty?.attackFrequencyMultiplier ?? 1.0;
+    const projSpeedMult = this.difficulty?.projectileSpeedMultiplier ?? 1.0;
+
+    const scaledHp = Math.round(def.maxHp * hpMult);
+    const scaledSpeed = Math.round(def.speed * speedMult);
+    const scaledDmg = Math.round(def.dmg * dmgMult);
+    const scaledGold = Math.round(def.gold * (isElite ? 2.5 : 1.0));
+
+    const effectiveDef = {
+      ...def,
+      speed: scaledSpeed,
+      dmg: scaledDmg,
+      gold: scaledGold,
+      projectileSpeed: Math.round((def.projectileSpeed ?? 420) * projSpeedMult),
+    };
+
     const e: EnemyEntity = {
-      def,
+      def: effectiveDef,
       x,
       y,
       vx: 0,
       vy: 0,
-      hp: def.maxHp,
+      hp: scaledHp,
+      maxHp: scaledHp,
       facing: fromLeft ? 1 : -1,
       onGround: false,
-      atkCd: 0.6 + Math.random() * 0.8,
-      shootCd: (def.shootCd ?? 2) * (0.7 + Math.random() * 0.6),
+      atkCd: (0.6 + Math.random() * 0.8) / attackFreq,
+      shootCd: ((def.shootCd ?? 2) * (0.7 + Math.random() * 0.6)) / attackFreq,
       hitFlash: 0,
       kb: 0,
       dead: false,
       phase2: false,
       deathT: 0,
+      isElite,
     };
     this.enemies.push(e);
   }
@@ -153,14 +187,14 @@ export class CombatSystem {
   startWave(idx: number, w: number, groundY: number) {
     this.waveIdx = idx;
     this.waveDamageTaken = 0;
-    const wave = WAVES[idx];
+    const wave = this.waves[idx];
     if (!wave) return;
 
     let delay = 0;
     for (const group of wave.enemies) {
       for (let i = 0; i < group.count; i++) {
         setTimeout(() => {
-          this.spawnEnemy(group.id, w, groundY);
+          this.spawnEnemy(group.id, w, groundY, group.isElite);
         }, delay * 1000);
         delay += 0.45;
       }
@@ -744,13 +778,13 @@ export class CombatSystem {
         unlockAchievement("flawless_wave");
       }
 
-      if (this.waveIdx >= WAVES.length - 1) {
+      if (this.waveIdx >= this.waves.length - 1) {
         setStatus("win");
         unlockAchievement("grand_master");
         this.audio?.playSfx("win");
-        recordRunResult(this.score, WAVES.length, this.stats.kills, this.stats.parries);
+        recordRunResult(this.score, this.waves.length, this.stats.kills, this.stats.parries);
         setTimeout(() => {
-          this.callbacks.onGameOver({ win: true, score: this.score, wave: WAVES.length });
+          this.callbacks.onGameOver({ win: true, score: this.score, wave: this.waves.length });
         }, 800);
       } else {
         setStatus("perk_select");

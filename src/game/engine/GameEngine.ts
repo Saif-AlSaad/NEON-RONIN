@@ -1,4 +1,5 @@
 import type { Ronin } from "../types";
+import type { LevelConfig } from "../campaign/levels";
 import { CyberpunkBackground } from "../background";
 import { InputManager } from "../input";
 import { GameAudio } from "../audio";
@@ -131,6 +132,11 @@ export class GameEngine {
 
   applySettings(settings: GameSettings) {
     this.renderSystem.setSettings(settings);
+  }
+
+  setLevelConfig(config: LevelConfig) {
+    this.combat.setWaves(config.waves);
+    this.combat.setDifficulty(config.difficulty);
   }
 
   private getWidth() {
@@ -501,7 +507,7 @@ export class GameEngine {
     const mode =
       this.status === "dead"
         ? "defeat"
-        : this.combat.waveIdx >= 0 && WAVES[this.combat.waveIdx]?.isBoss
+        : this.combat.waveIdx >= 0 && this.combat.waves[this.combat.waveIdx]?.isBoss
         ? "boss"
         : this.status === "playing"
         ? "battle"

@@ -55,6 +55,8 @@ export interface EnemyEntity {
   deathT: number;
   bleedT?: number;
   currentPlatformId?: string | null;
+  isElite?: boolean;
+  maxHp?: number;
 }
 
 export interface ProjectileEntity {

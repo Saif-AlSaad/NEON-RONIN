@@ -1,5 +1,7 @@
+import type { Wave } from "../../types";
 import { getSectorForLevel, SectorDef } from "./sectors";
 import { calculateDifficulty, DifficultyModifiers } from "./difficulty";
+import { generateLevelWave, generateLevelWaves } from "./waveGenerator";
 
 export type ObjectiveType = "eliminate_all" | "survive_time" | "assassinate_target" | "defeat_boss";
 
@@ -28,6 +30,7 @@ export interface LevelConfig {
   objective: LevelObjective;
   difficulty: DifficultyModifiers;
   waveCount: number;
+  waves: Wave[];
   enemyPool: string[];
   eliteChance: number;
   isBossLevel: boolean;
@@ -160,6 +163,7 @@ export function getLevelConfig(level: number): LevelConfig {
   const enemyPool = getEnemyPoolForLevel(clampedLevel, boss);
   const objective = getObjectiveForLevel(clampedLevel, boss, sectorDef);
   const reward = getRewardForLevel(clampedLevel, boss, sectorDef.id);
+  const waves = generateLevelWaves(clampedLevel);
 
   return {
     level: clampedLevel,
@@ -168,7 +172,8 @@ export function getLevelConfig(level: number): LevelConfig {
     biome: sectorDef.biome,
     objective,
     difficulty: diff,
-    waveCount,
+    waveCount: waves.length,
+    waves,
     enemyPool,
     eliteChance: diff.eliteChance,
     isBossLevel: boss,
@@ -188,5 +193,5 @@ export function getAllLevelConfigs(): LevelConfig[] {
   return configs;
 }
 
-// Re-export sector helper for convenience
-export { getSectorForLevel };
+// Re-export helpers for convenience
+export { getSectorForLevel, generateLevelWave, generateLevelWaves };

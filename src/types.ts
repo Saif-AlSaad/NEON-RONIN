@@ -41,10 +41,19 @@ export interface EnemyDef {
   meleeRange?: number;
 }
 
+export interface WaveEnemyGroup {
+  id: string;
+  count: number;
+  isElite?: boolean;
+}
+
 export interface Wave {
-  enemies: { id: string; count: number }[];
+  enemies: WaveEnemyGroup[];
   isBoss?: boolean;
   name?: string;
+  objectiveText?: string;
+  eliteChance?: number;
+  level?: number;
 }
 
 // Campaign exports

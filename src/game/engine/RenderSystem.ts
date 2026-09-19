@@ -1,5 +1,4 @@
 import type { Ronin } from "../types";
-import { WAVES } from "../ronin";
 import type { CyberpunkBackground } from "../background";
 import {
   PLAYER_W,
@@ -400,16 +399,29 @@ export class RenderSystem {
       ctx.restore();
       ctx.restore();
 
+      // Elite Indicator
+      if (e.isElite && !e.dead) {
+        ctx.save();
+        ctx.fillStyle = "#fbbf24";
+        ctx.shadowColor = "#f59e0b";
+        ctx.shadowBlur = 10;
+        ctx.font = "bold 11px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("★ ELITE", e.x, e.y - e.def.size.h - 20);
+        ctx.restore();
+      }
+
       // Enemy HP Bar
-      if (!e.dead && (e.def.behavior === "boss" || e.hp < e.def.maxHp)) {
+      const maxHp = e.maxHp ?? e.def.maxHp;
+      if (!e.dead && (e.def.behavior === "boss" || e.hp < maxHp || e.isElite)) {
         const bw = e.def.behavior === "boss" ? 160 : 50;
         const bx = e.x - bw / 2;
         const by = e.y - e.def.size.h - 14;
         ctx.fillStyle = "rgba(0,0,0,0.6)";
         rr(ctx, bx - 1, by - 1, bw + 2, 7, 3);
         ctx.fill();
-        ctx.fillStyle = e.def.behavior === "boss" ? "#ef4444" : "#fb7185";
-        rr(ctx, bx, by, bw * Math.max(0, e.hp / e.def.maxHp), 5, 2);
+        ctx.fillStyle = e.def.behavior === "boss" ? "#ef4444" : e.isElite ? "#fbbf24" : "#fb7185";
+        rr(ctx, bx, by, bw * Math.max(0, e.hp / maxHp), 5, 2);
         ctx.fill();
       }
     }
@@ -515,7 +527,7 @@ export class RenderSystem {
     ctx.fillText(`SCORE ${combat.score}`, w - 38, 48);
     ctx.fillStyle = "#f9a8d4";
     ctx.font = "600 13px Inter, sans-serif";
-    ctx.fillText(`Wave ${combat.waveIdx + 1} / ${WAVES.length}`, w - 38, 68);
+    ctx.fillText(`Wave ${combat.waveIdx + 1} / ${combat.waves.length}`, w - 38, 68);
     ctx.fillStyle = "#fca5a5";
     ctx.fillText(`🪙 ${combat.gold}`, w - 38, 86);
 

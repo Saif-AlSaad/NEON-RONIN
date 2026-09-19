@@ -7,3 +7,4 @@ export * from "./sectors";
 export * from "./difficulty";
 export * from "./levels";
 export * from "./progression";
+export * from "./waveGenerator";
